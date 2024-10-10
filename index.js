@@ -10,11 +10,11 @@ app.use(express.json());
 
 const pedidosRouter = require('./routers/pedidos.router');
 app.use('/pedidos', pedidosRouter);
-// Siempre que me refiera a peliculas le coloco el prefijo
+// Siempre que me refiera a pedidos le coloco el prefijo
 
 
 app.get("/", (req, res) => {
-    res.send("Hola Liosan");
+    res.send("RUTA DE INICIO MOTHER FUCKER");
 });
 // Esta es la ruta principal del proyecto "/"
 
