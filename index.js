@@ -12,6 +12,10 @@ const pedidosRouter = require('./routers/pedidos.router');
 app.use('/pedidos', pedidosRouter);
 // Siempre que me refiera a pedidos le coloco el prefijo
 
+const platillosRouter = require('./routers/platillos.router');
+app.use('/platillos', platillosRouter);
+// Siempre que me refiera a platillos le coloco el prefijo
+
 
 app.get("/", (req, res) => {
     res.send("RUTA DE INICIO MOTHER FUCKER");
