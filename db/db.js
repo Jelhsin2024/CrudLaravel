@@ -6,6 +6,7 @@ const connection = mysql.createConnection({
     user : "root",
     password : "",
     database : "liosan_js"
+    
 });
 
 connection.connect((error) => {
