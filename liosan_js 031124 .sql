@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-10-2024 a las 02:10:51
--- Versión del servidor: 10.4.27-MariaDB
--- Versión de PHP: 7.4.33
+-- Tiempo de generación: 04-11-2024 a las 00:41:02
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,25 +24,70 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comentarios`
+--
+
+CREATE TABLE `comentarios` (
+  `id` int(255) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `puntuacion` int(10) NOT NULL,
+  `comentario` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `comentarios`
+--
+
+INSERT INTO `comentarios` (`id`, `nombre`, `puntuacion`, `comentario`) VALUES
+(1, 'Luisillo el pillo', 10, 're piola'),
+(2, 'Luisillo el pillo', 10, 're piola');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contactos`
+--
+
+CREATE TABLE `contactos` (
+  `id` int(11) NOT NULL,
+  `celular` int(10) NOT NULL,
+  `celular2` int(10) NOT NULL,
+  `whatsapp` varchar(15) NOT NULL,
+  `direccion` varchar(250) NOT NULL,
+  `descripcion` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `contactos`
+--
+
+INSERT INTO `contactos` (`id`, `celular`, `celular2`, `whatsapp`, `direccion`, `descripcion`) VALUES
+(1, 11223344, 1122334455, '1122334455', 'Tres Arroyos 4523, B1874 Villa Dominico, Provincia de Buenos', 'Somos una Restaurante de comida Peruana, brindamos la mejor sazón de comida criolla, mariscos y nuestros riquísimos pollos a la brasa! '),
+(2, 11223344, 1122334455, '1122334455', 'Tres Arroyos 4523, B1874 Villa Dominico, Provincia de Buenoseeeeeeeeeeeeeeeeee', 'Somos una Restaurante de comida Peruana, brindamos la mejor sazón de comida criolla, mariscos y nuestros riquísimos pollos a la brasaeeeeeeeeeeeeeee! ');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pedidos`
 --
 
 CREATE TABLE `pedidos` (
-  `id_pedido` int(255) NOT NULL,
+  `id` int(255) NOT NULL,
   `n_mesa` int(255) NOT NULL,
   `n_platillo` varchar(255) NOT NULL,
-  `fecha_hora` date NOT NULL
+  `fecha_hora` datetime NOT NULL,
+  `medio_pago` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pedidos`
 --
 
-INSERT INTO `pedidos` (`id_pedido`, `n_mesa`, `n_platillo`, `fecha_hora`) VALUES
-(1, 2, 'NUEVO PLATILLO 1', '2024-10-09'),
-(2, 22, 'Nuevo Platillo 22', '2024-10-09'),
-(3, 1, 'Nuevo Platillo', '2024-10-09'),
-(4, 12, 'Nuevo Platillo 12', '2024-10-09');
+INSERT INTO `pedidos` (`id`, `n_mesa`, `n_platillo`, `fecha_hora`, `medio_pago`) VALUES
+(1, 2, 'NUEVO PLATILLO 1', '2024-10-09 00:00:00', ''),
+(2, 22, 'Nuevo Platillo 22', '2024-10-09 00:00:00', ''),
+(3, 1, 'Nuevo Platillo', '2024-10-09 00:00:00', ''),
+(4, 12, 'Nuevo Platillo 12', '2024-10-09 00:00:00', '');
 
 -- --------------------------------------------------------
 
@@ -64,7 +109,7 @@ CREATE TABLE `platillos` (
 --
 
 INSERT INTO `platillos` (`id`, `nombre`, `descripcion`, `precio`, `foto`, `tipo`) VALUES
-(46, 'Leche de Tigre', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '12.000', 'uploads/d3O4tJvmE6ePZGlyB7q9FKDo8I2ZvfQPsJkGgDj7.jpg', 'Entrada'),
+(46, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '', 'uploads/d3O4tJvmE6ePZGlyB7q9FKDo8I2ZvfQPsJkGgDj7.jpg', 'Entrada'),
 (47, 'Salchi Papa', 'Papas fritas y salchicas bien fritas para picar.', '7.000', 'uploads/32IfK4pyQ11BA8hyoMmFGYMWVHXECGxLM1UMvnHt.jpg', 'Entrada'),
 (48, 'Wantan Frito', 'Masa fina con relleno de pollo', 'grande 8.000/ mediana 4.500', 'uploads/F7UKwG0EgQQNe71EMLUohkwrwxF7oXY6RLEhL32p.jpg', 'Entrada'),
 (50, 'Pollo a la Brasa', 'Pollo con papas fritas, ensalada y condimientos Peruanos(mayonesa, ají y vinagreta)', '18.000', 'uploads/HpXmQznBSoCFbRLpsxbkQwXzxCNDyzgk8pPxeuyR.jpg', 'Pollos'),
@@ -93,7 +138,7 @@ INSERT INTO `platillos` (`id`, `nombre`, `descripcion`, `precio`, `foto`, `tipo`
 (73, 'Tallarín Chifa con Langostino', 'Fideos y langostinos ahumados con brotes de soja, morrón, brócoli y salsa de soja.', '18.000', 'uploads/e0mpst0y9nUUbVZ6k7RZAgZU60dWYpgGQeGXVcyD.jpg', 'Chifa'),
 (74, 'Combinado de Pollo', 'Chufa y tallarín chifa de pollo en un solo plato para bien servido.', '8.000', 'uploads/ThUxA7pT6URX1vmZW6aQ6clVEx4PnxyfU2PsfsXR.jpg', 'Chifa'),
 (75, 'Pollo con Verduras', 'Chaufa de pollo, brócoli, morrón y trozos de pollo aderezados con salsa de soja.', '10.000', 'uploads/AZzOB0whca6DcxpjsEWEoRFC8aLJd02wCMoSeIVD.jpg', 'Chifa'),
-(76, 'Taipá a la Plancha', 'Mix de carnes y verduras a la plancha.', '25.000', '            <img class=\"img-thumbnail img-fluid\" src=\"uploads/yj8VP3oFLwfKB9khsES6aQSufYcvBjgQmwlhSXgq.mp4\" alt=\"\" width=\"150px\">            ', 'Chifa Video'),
+(76, 'Taipá a la Plancha', 'Mix de carnes y verduras a la plancha.', '25.000', 'uploads/yj8VP3oFLwfKB9khsES6aQSufYcvBjgQmwlhSXgq.mp4     ', 'Chifa Video'),
 (77, 'Caldo de Gallina', 'Caldo de pollo con fideos largos, huevo, su canchita y verdeo.', '7.000', 'uploads/QHbve16CtQDsoF8TFtf8Tqi1B9CubOsshXeHFMYR.jpg', 'Sopas'),
 (78, 'Sopa Wantan', 'Caldo concentrado de pollo y verduras, viene con su huevo cocido y masa delgada wantan.', '8.000', 'uploads/2c6Zm3IqETDbQaPyJkIKP4RoqZ4cjQpbGowtavsP.jpg', 'Sopas'),
 (79, 'Sustancia', 'Caldo de carne bien cocinado, fideos largos y verduras.', '7.000', 'uploads/XIFlfkRIMD0xbSekP7dJjtZMVkD7VmJds3ZOH4wE.jpg', 'Sopas'),
@@ -141,17 +186,102 @@ INSERT INTO `platillos` (`id`, `nombre`, `descripcion`, `precio`, `foto`, `tipo`
 (123, 'Vino Chenin', NULL, '2500', 'uploads/skREiw3kU8xE8u6ZLcWug9gSyJmn5ZdDI1fsR9v8.jpg', 'Vinos'),
 (124, 'Vino Circus', NULL, '2500', 'uploads/N4UNWRuvKQGGdigj79kIsH7BY3T7LCCvmfdZzH7e.jpg', 'Vinos'),
 (125, 'Vino Dada', NULL, '2500', 'uploads/Di5d7dLfEH76KWESm40jC5Bpxm2nRZ0ZWI1nOwS1.jpg', 'Vinos'),
-(126, 'Vino Viejas Cepas', NULL, '2500', 'uploads/TtOEf9vnp8cHLPrJTq76Ch8AENYboCkGDjhp1TVY.jpg', 'Vinos');
+(126, 'Vino Viejas Cepas', NULL, '2500', 'uploads/TtOEf9vnp8cHLPrJTq76Ch8AENYboCkGDjhp1TVY.jpg', 'Vinos'),
+(153, 'Tigreee', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '', 'uploads/d3O4tJvmE6ePZGlyB7q9FKDo8I2ZvfQPsJkGgDj7.jpg', 'Entrada'),
+(161, 'PIRULOaaaaaaaaaaaaaaaaaaa', 'PIRULO', '213', 'uploads/', 'Entrada'),
+(163, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '2', 'uploads/d3O4tJvmE6ePZGlyB7q9FKDo8I2ZvfQPsJkGgDj7.jpg', 'Entrada'),
+(174, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '', 'uploads/1730612555438.jpg', 'Entrada'),
+(180, '', '', '', 'uploads/1730645299365.jpg', ''),
+(181, '', '', '', 'uploads/1730645490676.jpg', ''),
+(182, '', '', '', 'uploads/1730645592848.jpg', ''),
+(183, '', '', '', 'uploads/1730645645838.jpg', ''),
+(184, '', '', '', 'uploads/1730645794142.jpg', ''),
+(185, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '23', 'uploads/1730645902564.jpg', 'Pollos'),
+(186, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '213', 'uploads/1730645942476.png', 'Mariscos'),
+(187, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '213', 'uploads/1730645955349.jpg', 'Entrada'),
+(188, 'OMARRRR', '', '$$213', 'uploads/1730647771266.jpg', ''),
+(189, '', '', '', 'uploads/1730646059235.jpg', ''),
+(190, 'PIRULO', 'PIRULO', '10000', 'uploads/1730646282208.jpg', 'Entrada'),
+(191, 'PIRULO', 'PIRULO', '10000', 'uploads/1730646283544.jpg', 'Entrada'),
+(192, 'PIRULO', 'PIRULO', '10000', 'uploads/1730646284793.jpg', 'Entrada'),
+(193, 'PIRULO', 'PIRULO', '10000', 'uploads/1730646302097.jpg', 'Entrada'),
+(195, 'Leche de Tigree', 'Pescado crudo bien marinado con cítricos, ajíes y cebollas.', '213', 'uploads/1730647489206.png', 'Entrada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nombre` varchar(30) NOT NULL,
+  `apellido` varchar(30) NOT NULL,
+  `direccion` varchar(60) NOT NULL,
+  `celular` int(10) NOT NULL,
+  `rol` varchar(30) NOT NULL,
+  `localidad` varchar(30) NOT NULL,
+  `imagen_usuario` varchar(255) NOT NULL,
+  `fecha_creacion` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `email`, `password`, `nombre`, `apellido`, `direccion`, `celular`, `rol`, `localidad`, `imagen_usuario`, `fecha_creacion`) VALUES
+(365, 'mariano@mariano.com.ar', '$2a$08$ivrEpZONbcUFPAN5mFVMkO9LeR2EBvr8GCc2cc9nBlO3MUcwHuu2G', 'nombre', 'apellido', 'direccion', 1133224, 'Mozo', 'WILDE', '1730605692550.jpg', '2024-11-03 03:48:12'),
+(371, 'mariano@mariano.com.ar', '$2a$08$win3heJ7NvE8jIXYfJxebeZ7/2Z6Y1UpNn2oMs9Q4jnva.vdBkSrC', 'nombreeeeeeee', 'apellido', 'direccion', 1133224, 'Mozo', 'WILDE', '1730607320674.jpg', '2024-11-03 04:15:20'),
+(379, 'johndoe@example.com', '$2a$08$E5wPamix6dWE3/QsO..JOuzS00PHXEGuqR2NzH9ZXfMu2.3SWRmlK', '', '', '', 0, '', '', '1730673019109.png', '2024-11-03 16:24:26'),
+(380, '', '$2a$08$2GXWa15V3BEnzCIPtKdfHugEiBai4rAfu/5SgJU4bVCb02L7274Um', '', '', '', 0, '', '', '', '2024-11-03 16:28:53'),
+(381, '', '$2a$08$QhyHd0bEJogUKsMLHQ.wZu0z9UskngVGbSzb36r0X5j1fGpbSC6Fy', '', '', '', 0, '', '', '', '2024-11-03 16:34:06'),
+(382, '', '$2a$08$3uOhrnCwUbtdT6kMfzA8POBIinvwSJcX34X6w301QPXeMKnqd/jjO', '', '', '', 0, '', '', '', '2024-11-03 22:30:35');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `videoportadas`
+--
+
+CREATE TABLE `videoportadas` (
+  `id` int(11) NOT NULL,
+  `nombre_videoPortada` varchar(50) NOT NULL,
+  `tipo_videoPortada` varchar(50) NOT NULL,
+  `descripcion_videoPortada` varchar(255) NOT NULL,
+  `file_videoPortada` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `videoportadas`
+--
+
+INSERT INTO `videoportadas` (`id`, `nombre_videoPortada`, `tipo_videoPortada`, `descripcion_videoPortada`, `file_videoPortada`) VALUES
+(1, '11223344', '1122334455', '1122334455', 'file.jpg'),
+(2, '11223344', '1122334455', '1122334455', 'file.jpg');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
+-- Indices de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `contactos`
+--
+ALTER TABLE `contactos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  ADD PRIMARY KEY (`id_pedido`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `platillos`
@@ -160,20 +290,56 @@ ALTER TABLE `platillos`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `videoportadas`
+--
+ALTER TABLE `videoportadas`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `comentarios`
+--
+ALTER TABLE `comentarios`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `contactos`
+--
+ALTER TABLE `contactos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pedidos`
 --
 ALTER TABLE `pedidos`
-  MODIFY `id_pedido` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `platillos`
 --
 ALTER TABLE `platillos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=196;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=383;
+
+--
+-- AUTO_INCREMENT de la tabla `videoportadas`
+--
+ALTER TABLE `videoportadas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
