@@ -5,6 +5,7 @@
 // n_mesa
 // n_platillo
 // fecha_hora
+// medio_pago
 
 const db = require("../db/db");
 
@@ -40,9 +41,9 @@ const showPedido = (req, res) => {
 
 //// METODO POST  ////
 const storePedido = (req, res) => {
-    const {n_mesa, n_platillo, fecha_hora} = req.body;
-    const sql = "INSERT INTO pedidos (n_mesa, n_platillo, fecha_hora) VALUES (?,?,?)";
-    db.query(sql,[n_mesa, n_platillo, fecha_hora], (error, result) => {
+    const {n_mesa, n_platillo, fecha_hora, medio_pago} = req.body;
+    const sql = "INSERT INTO pedidos (n_mesa, n_platillo, fecha_hora, medio_pago) VALUES (?,?,?,?)";
+    db.query(sql,[n_mesa, n_platillo, fecha_hora, medio_pago], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
@@ -56,9 +57,9 @@ const storePedido = (req, res) => {
 //// METODO PUT  ////
 const updatePedido = (req, res) => {
     const {id_pedido} = req.params;
-    const {n_mesa, n_platillo, fecha_hora} = req.body;
-    const sql ="UPDATE pedidos SET n_mesa = ?, n_platillo = ?, fecha_hora = ? WHERE id_pedido = ?";
-    db.query(sql,[n_mesa, n_platillo, fecha_hora, id_pedido], (error, result) => {
+    const {n_mesa, n_platillo, fecha_hora, medio_pago} = req.body;
+    const sql ="UPDATE pedidos SET n_mesa = ?, n_platillo = ?, fecha_hora = ?, medio_pago = ? WHERE id = ?";
+    db.query(sql,[n_mesa, n_platillo, fecha_hora, medio_pago, id_pedido], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
@@ -77,7 +78,7 @@ const updatePedido = (req, res) => {
 //// METODO DELETE ////
 const destroyPedido = (req, res) => {
     const {id_pedido} = req.params;
-    const sql = "DELETE FROM pedidos WHERE id_pedido = ?";
+    const sql = "DELETE FROM pedidos WHERE id = ?";
     db.query(sql,[id_pedido], (error, result) => {
         console.log(result);
         if(error){

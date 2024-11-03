@@ -6,6 +6,9 @@ const controller = require("../controllers/pedidos.controller");
 
 //// METODO GET  /////
 
+
+
+
 // Para todos los productos
 router.get('/', controller.allPedido);
 

@@ -42,14 +42,19 @@ const showPlatillo = (req, res) => {
 
 //// METODO POST  ////
 const storePlatillo = (req, res) => {
-    const {nombre, descripcion, precio, foto, tipo} = req.body;
+    let imagenAsubir ="";
+    if(req.file){imagenAsubir=req.file.filename;}
+    let rutaimagenAsubir="uploads/"+imagenAsubir;
+        
+
+    const {nombre, descripcion, precio, tipo} = req.body;
     const sql = "INSERT INTO platillos (nombre, descripcion, precio, foto, tipo) VALUES (?,?,?,?,?)";
-    db.query(sql,[nombre, descripcion, precio, foto, tipo], (error, result) => {
+    db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
         }
-        const platillo = {...req.body, id: result.insertId}; // ... reconstruir el objeto del body
+        const platillo = {...req.body,rutaimagenAsubir, id: result.insertId}; // ... reconstruir el objeto del body
         res.status(201).json(platillo); // muestra creado con exito el elemento
     });     
 
@@ -57,11 +62,15 @@ const storePlatillo = (req, res) => {
 
 //// METODO PUT  ////
 const updatePlatillo = (req, res) => {
+    let imagenAsubir ="";
+    if(req.file){imagenAsubir=req.file.filename;}
+    let rutaimagenAsubir="uploads/"+imagenAsubir;
+        
     const {id_platillo} = req.params;
-    const {nombre, descripcion, precio, foto, tipo} = req.body;
+    const {nombre, descripcion, precio, tipo} = req.body;
     
     const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, foto = ?, tipo = ? WHERE id = ?";
-    db.query(sql,[nombre, descripcion, precio, foto, tipo, id_platillo], (error, result) => {
+    db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo, id_platillo], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});

@@ -1,71 +1,96 @@
-/* // CONFIGURAR LO QUE SERIA UN SERVIDOR CON LAS MINIMAS PRESTACIONES PARA CORRER EXPRESS
-// Que este escuchando y tengamos una ruta principal "/" en el proyecto
-
-const express = require("express");
-const app = express();
-
-app.use(express.json());
-// en el cuerpo de la peticion viene un json, lo voy a transformar en un objeto JS y de esta manera
-// lo voy a poder utilizar
-
-const pedidosRouter = require('./routers/pedidos.router');
-app.use('/pedidos', pedidosRouter);
-// Siempre que me refiera a pedidos le coloco el prefijo
-
-const platillosRouter = require('./routers/platillos.router');
-app.use('/platillos', platillosRouter);
-// Siempre que me refiera a platillos le coloco el prefijo
-
-
-app.get("/", (req, res) => {
-    res.send("RUTA DE INICIO MOTHER FUCKER");
-});
-// Esta es la ruta principal del proyecto "/"
-
-const PORT = 3000;
-app.listen(PORT, ()=> console.log(`http://localhost:${PORT}`));
- */
-
-
-// CONFIGURAR LO QUE SERIA UN SERVIDOR CON LAS MINIMAS PRESTACIONES PARA CORRER EXPRESS
-// Que este escuchando y tengamos una ruta principal "/" en el proyecto
-
 require("dotenv").config();
 
 const express = require("express");
-const cors = require("cors");  // Importa el paquete cors
+const cors = require("cors");
 const app = express();
+const cookieParser = require('cookie-parser');
+const path = require("path");
 
+// Middleware para manejar cookies
+app.use(cookieParser());
 
+// Middleware para habilitar CORS
+app.use(cors());
 
-app.use(cors());  // Aplica el middleware cors a todas las rutas
-
+// Middleware para parsear JSON en solicitudes
 app.use(express.json());
-// en el cuerpo de la peticion viene un json, lo voy a transformar en un objeto JS y de esta manera
-// lo voy a poder utilizar
 
+// Seteamos la carpeta liosanJavascript
+// Rutas API
+// Ruta para Pedidos
 const pedidosRouter = require('./routers/pedidos.router');
-app.use('/pedidos', pedidosRouter);
-// Siempre que me refiera a pedidos le coloco el prefijo
+app.use('/api/pedidos', pedidosRouter);
 
+// Ruta para Platillos
 const platillosRouter = require('./routers/platillos.router');
-app.use('/platillos', platillosRouter);
-// Siempre que me refiera a platillos le coloco el prefijo
+app.use('/api/platillos', platillosRouter);
 
-const usersRouter = require('./routers/auth.router');
-app.use('/users', platillosRouter);
-// Siempre que me refiera a platillos le coloco el prefijo
+// Ruta para Contactos
+const contactosRouter = require('./routers/contactos.router');
+app.use('/api/contactos', contactosRouter);
 
+// Ruta para edicion de videos de portada
+const videosPortadaRouter = require('./routers/videoPortadas.router');
+app.use('/api/videoportadas', videosPortadaRouter);
+
+// Ruta para administracion de comentarios
+const comentariosRouter = require('./routers/comentarios.router');
+app.use('/api/comentarios', comentariosRouter);
+
+// Ruta para inicio de sesion
+const usuarioRouter = require("./routers/auth.router")
+app.use("/api/auth", usuarioRouter);
+
+
+
+
+/* const __dirname = path.dirname(file) */
+
+
+//RUTAS ESTATICAS:
+// Middleware para servir archivos estáticos en el servidor multi plataforma con el path.join(HTML, CSS, JS, imágenes, etc.)
+app.use('/', express.static(path.join(__dirname, 'liosanJavascript/')));
+
+// Ruta estática para servir archivos en la carpeta pages
+app.use('/pages', express.static(path.join(__dirname, 'liosanJavascript/pages')));
+
+// Ruta estática para servir archivos en la carpeta pages
+app.use('/admin', express.static(path.join(__dirname, 'liosanJavascript/pages/admin')));
+
+// Ruta estática para servir archivos en la carpeta pages
+app.use('/plato', express.static(path.join(__dirname, 'liosanJavascript/pages/plato')));
+
+// Ruta principal "/" que servirá tu archivo index.html
 app.get("/", (req, res) => {
-    res.send("RUTA DE INICIO MOTHER FUCKER");
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/indexEntrada.html"));
 });
-// Esta es la ruta principal del proyecto "/"
+//RUTAS ESTATICAS FIN
 
 
-app.use("/auth", require("./routers/auth.router"));
-//Ruta para loguin
+//Rutas de administracion en desarrollo
+app.get("/login", (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/login.html"));
+});
 
+//RU
+app.get("/admin/platillos", (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+});
 
+app.get("/admin/pedidos", (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/pedidos.html"));
+});
+app.get("/admin/platillos", (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+});
+app.get("/admin/platillos", (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+});
+
+//Rutas de administracion en desarrollo FIIIN
+
+// Configura el puerto
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));
 
+/* console.log((__dirname + '/liosanJavascript/')) */
