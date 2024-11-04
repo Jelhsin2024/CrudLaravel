@@ -1,22 +1,22 @@
+//definicion de url
+/* const url = 'http://localhost:3000/api/platillos/' */
+
 
 //capturando tbody para mostrar los usuarios
 const contenedor = document.getElementById('tbodyRegisterAdmin')
-
-
 let resultados =''
 
 
-// Capturamos el modal
+// Capturamos el modal para abrir y cerrar
 var modalRegistro = new bootstrap.Modal(document.getElementById('modalRegistro'));
 
 
-
-//Capturamos el form modal
+//Capturamos el form del modal
 const formRegister = document.getElementById('formModalId')
 //Capturamos el form login
 const formLoginId = document.getElementById('formLoginId')
 
-//seleccionando input del formulario modal
+//Capturamos input del formulario del modal
 const emailRegister = document.getElementById('emailRegister')
 const passwordRegister = document.getElementById('passwordRegister')
 const nombreRegister = document.getElementById('nombreRegister')
@@ -113,8 +113,8 @@ async function loginUsuario() {
             alertify.success("Usuario logueado correctamente perrrroooooo!!!!!!!!");
             localStorage.setItem("token", result.token);
             setTimeout(() => {
-                window.location.href = "admin/platillos.html";
-            }, 4000);
+                window.location.href = "platillos.html";
+            }, 3000);
         } else {
             const error = await response.json();
             alertify.error(`Error: ${error.message || "No se pudo loguear :( lpm!!!"}`);

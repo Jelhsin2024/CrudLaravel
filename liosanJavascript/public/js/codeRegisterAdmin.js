@@ -24,13 +24,14 @@ const localidadRegister = document.getElementById("localidadRegister");
 const rolRegister = document.getElementById("rolRegister");
 const celularRegister = document.getElementById("celularRegister");
 const fotoRegister = document.getElementById('fotoRegister')
+const imgModalRegister = document.getElementById('imgModalRegister')
 //Variable paga guardar o editar segun fuera el caso jejeje
 let opcion = "";
 
-// Agrega un evento para detectar cambios en el input (cuando se selecciona un archivo)
+// Agrega un evento para detectar cambios en el input (cuando se selecciona un archivo del modal)
 let archivoSeleccionado = null;
 fotoRegister.addEventListener('change', (event) => {
-    archivoSeleccionado = event.target.files[0]; // Accede al archivo
+    archivoSeleccionado = event.target.files[0]; // Accede al archivo y lo guarda en la variable archivoSeleccionado
     console.log("Archivo seleccionado:", archivoSeleccionado); // Imprime la información del archivo
 /*     if (archivoSeleccionado) {
         console.log("Nombre del archivo:", archivoSeleccionado.name);
@@ -54,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
         localidadRegister.value = "";
         rolRegister.value = "";
         celularRegister.value = "";
-        imgModalRegister.src = '';
+        imgModalRegister.src="";
+        archivoSeleccionado = null;
         modalRegistro.show();
         opcion = "crear";
     });
@@ -70,7 +72,7 @@ const mostrar = (registros) => {
         <tr>
             <td>${registro.id}</td>
             <td>
-                <img class="img-thumbnail img-fluid" src="../../public/uploads/img_usuarios/${registro.imagen_usuario}" alt="" width="120px">
+                <img class="img-thumbnail img-fluid" src="../../public/uploads/img_usuarios/${registro.imagen_usuario || '../../public/default-image.jpg'}" alt="" width="120px">
             </td>
             <td>${registro.nombre}</td>
             <td>${registro.apellido}</td>
@@ -131,7 +133,7 @@ on(document, "click", ".btnBorrar", (e) => {
 });
 
 //Procedimiento para editar
-//asignamos los valores de cada platillo a un variable para mostrarlos en el modal al hacer clic en el boton editar
+//capturamos cada valor de la fila del usuario que queremos editar y la asignamos a una variable esto cuando se presiona el boton editar.
 let idForm = 0;
 let precioForm = 0;
 on(document, "click", ".btnEditar", (e) => {
@@ -139,6 +141,11 @@ on(document, "click", ".btnEditar", (e) => {
 
     //capturamos los datos de la lista
     idForm = fila.children[0].innerHTML;
+
+    // Captura el `src` de la imagen del usuario
+    const fotoForm = fila.querySelector('img').src; // Usar fila.querySelector para capturar la imagen correcta
+    imgModalRegister.src = fotoForm; // Muestra la imagen en el modal
+
     const nombreForm = fila.children[2].innerHTML;
     const apellidoForm = fila.children[3].innerHTML;
     const emailForm = fila.children[4].innerHTML;
@@ -146,9 +153,7 @@ on(document, "click", ".btnEditar", (e) => {
     const localidadForm = fila.children[6].innerHTML;
     const celularForm = fila.children[7].innerHTML;
     const rolForm = fila.children[8].innerHTML;
-    // Captura el `src` de la imagen del platillo
-    const fotoForm = fila.querySelector('img').src; // Usar fila.querySelector para capturar la imagen correcta
-    imgModalRegister.src = fotoForm; // Muestra la imagen en el modal
+
 
     //asignamos los valores captados en una variable en especifico para luego mostrarlo en el form
     nombreRegister.value = nombreForm;
@@ -160,70 +165,13 @@ on(document, "click", ".btnEditar", (e) => {
     rolRegister.value = rolForm;
 
     // Limpia la selección de archivo
-    archivoSeleccionado = null; // Asegúrate de que no haya un archivo seleccionado antes de editar
-    fotoRegister.value = ''; // Limpia el input de archivo
+    /* archivoSeleccionado = null */; // Asegúrate de que no haya un archivo seleccionado antes de editar
+    /* fotoRegister.value = '' */; // Limpia el input de archivo
 
     opcion = "editar";
     modalRegistro.show();
 });
 
-//procedimiento para crear y editar los platillos
-/* formRegister.addEventListener('submit', (e)=>{
-    e.preventDefault()
-    if(opcion=='crear'){
-        //Procedimiento para crear
-        fetch("http://localhost:3000/auth/register", {
-            method: 'POST',
-            headers: {
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({
-            nombre: nombreRegister.value,
-            apellido:apellidoRegister.value,
-            email: emailRegister.value,
-            password: passwordRegister.value,
-            direccion: direccionRegister.value,
-            localidad: localidadRegister.value,
-            celular: celularRegister.value,
-            rol: rolRegister.value
-
-            })
-        })
-        .then( response => response.json())
-        .then( data=>{
-            const nuevoRegistro =[]
-            nuevoRegistro.push(data)
-            mostrar(nuevoRegistro)
-            console.log('Registro exitoso');
-
-        })
-        .catch(error => console.log(error)); // Manejo de errores
-    }
-    if(opcion=='editar'){
-        //Procedimiento para editar
-        fetch(url+idForm,{
-            method: 'PUT',
-            headers: {
-            'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-                nombre: nombreRegister.value,
-                apellido:apellidoRegister.value,
-                email: emailRegister.value,
-                password: passwordRegister.value,
-                direccion: direccionRegister.value,
-                localidad: localidadRegister.value,
-                celular: celularRegister.value,
-                rol: rolRegister.value
-                })
-        })
-        .then( response => response.json())
-        .then( response => location.reload())
-        
-    }
- 
-    
-}) */
 
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -235,18 +183,60 @@ formRegister.addEventListener("submit", (e) => {
         formData.append('nombre', nombreRegister.value);
         formData.append('apellido', apellidoRegister.value);
         formData.append('email', emailRegister.value);
-        formData.append('password', passwordRegister.value);
+        /* formData.append('password', passwordRegister.value); */
         formData.append('direccion', direccionRegister.value);
         formData.append('localidad', localidadRegister.value);
         formData.append('celular', celularRegister.value);
         formData.append('rol', rolRegister.value);
 
-        // Asegúrate de añadir el archivo si se ha seleccionado uno
+        // Solo añadimos 'imagen_usuario' al FormData si se seleccionó una nueva imagen
         if (archivoSeleccionado) {
-            formData.append('imagen_usuario', archivoSeleccionado); // Añade el archivo e indicamos el camo al cual se agregaria en el db
+            formData.append('imagen_usuario', archivoSeleccionado); // Añade el archivo al FormData
+        } else if (opcion === 'editar' && imgModalRegister.src) {
+            // No añadimos el campo 'foto' al FormData si el img.src tiene un valor si tiene un valor si se lo agregamos.
+            console.log("Conservando la imagen actual, no se envía ninguna imagen nueva.");
+        }
+
+        // Solo añadimos 'password' al FormData si se ingreso una nueva contraseña, si no queda vacia. 
+        if (passwordRegister.value) {
+            formData.append('password', passwordRegister.value); // Añade el archivo al FormData
+        } else if (opcion === 'editar' && passwordRegister.value) {
+            // No añadimos el campo 'password' al FormData si el campo se encuentra vacio
+            console.log("Conservando la imagen actual, no se envía ninguna imagen nueva.");
         }
     
-    if (opcion === "crear") {
+        if (opcion === 'crear') {
+            // Procedimiento para crear
+            fetch(url+"/register", {
+                method: 'POST',
+                body: formData // Envía el FormData
+            })
+            .then((response) => response.json())
+            .then(() => {
+                alertify.success("Usuario Registrado con éxito");
+                setTimeout(() => location.reload(), 3000); // Refresca la página después de 2 segundos
+            })
+            .catch((error) => console.log(error));
+        }
+        if (opcion === 'editar') {
+            // Procedimiento para editar
+            console.log("Muestro que hay en el form data")
+            // Itera sobre los valores de formData para mostrarlos en la consola
+            for (let pair of formData.entries()) {
+                console.log(`${pair[0]}:`, pair[1]);
+            }
+            fetch(url + idForm, {
+                method: 'PUT',
+                body: formData // Envía el FormData
+            })
+            .then(response => response.json())
+            .then(() => {
+                alertify.success("Usuario editado con éxito");
+                setTimeout(() => location.reload(), 3000); // Refresca la página después de 2 segundos
+            })         
+            /* .then(response => location.reload());  */// Recargamos la página después de editar
+        }
+    });/* 
         registrarUsuario(); // Llama a la función que ya maneja la creación
     } else if (opcion === "editar") {
         // Coloca aquí tu lógica para edición, si es diferente.
@@ -292,12 +282,13 @@ async function registrarUsuario() {
 /*             setTimeout(() => {
                 window.location.href = "/platillos.html";
             }, 2000); */
-        } else {
+        /* } else {
             const error = await response.json();
             alertify.error(`Error: ${error.message || "No se pudo registrar"}`);
         }
     } catch (error) {
         alertify.error("Error en la conexión");
         console.error("Error en la solicitud", error);
-    }
-}
+    } */
+/* } */
+/*  */ 

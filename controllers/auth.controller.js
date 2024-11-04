@@ -84,27 +84,117 @@ const register = async (req, res) => {
 
 };
 
-const updateUsuario = async (req, res) => {
+/* const updateUsuario = async (req, res) => {
     let imagenAsubir ="";
     if(req.file){imagenAsubir=req.file.filename;}
-    /* let rutaimagenAsubir="uploads/"+imagenAsubir; */
+    
 
     const {id_usuario} = req.params;
     const {nombre, apellido, email, password, direccion, localidad, celular, rol} = req.body;
     const hashPassword = await bcrypt.hash(password,8)
+    if(imagenAsubir){
+        console.log("Mostramos que hay en imagnesubir:",imagenAsubir," mostramos que hau en password:",password)
+        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, direccion = ?, localidad = ?, celular = ?, rol = ?, imagen_usuario = ? WHERE id = ?";
+        db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, imagenAsubir, id_usuario], (error, result) => {
+            if (error) {
+                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
+            }
+            const usuario = {...req.body,imagenAsubir, id_usuario};
+            res.json(usuario); // mostrar el elemento que existe
+        });
+    }
 
-    const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, direccion = ?, localidad = ?, celular = ?, rol = ?, imagen_usuario = ? WHERE id = ?";
-    db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, imagenAsubir, id_usuario], (error, result) => {
-        if (error) {
-            return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
+     else if(imagenAsubir=="" && password){
+        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
+        db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, id_usuario], (error, result) => {
+            if (error) {
+                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
+            }
+            const usuario = {...req.body,imagenAsubir, id_usuario};
+            res.json(usuario); // mostrar el elemento que existe
+        });
+    
+    }
+
+    else if(imagenAsubir=="" && password==""){
+        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
+        db.query(sql, [nombre, apellido, email, direccion, localidad, celular, rol, id_usuario], (error, result) => {
+            if (error) {
+                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
+            }
+            const usuario = {...req.body,imagenAsubir, id_usuario};
+            res.json(usuario); // mostrar el elemento que existe
+        });
+    
+    }
+
+    else if(imagenAsubir && password==""){
+        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
+        db.query(sql, [nombre, apellido, email, direccion, localidad, celular, rol, imagenAsubir, id_usuario], (error, result) => {
+            if (error) {
+                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
+            }
+            const usuario = {...req.body,imagenAsubir, id_usuario};
+            res.json(usuario); // mostrar el elemento que existe
+        });
+    
+    } 
+
+} */
+
+    const updateUsuario = async (req, res) => {
+        let imagenAsubir = req.file ? req.file.filename : ""; // Asigna el nombre de la imagen si existe
+        const { id_usuario } = req.params;
+        const { nombre, apellido, email, password, direccion, localidad, celular, rol } = req.body;
+    
+        // Preparar los datos para la consulta
+        let sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, ";
+        let params = [nombre, apellido, email];
+        
+        // Agregar `password` si está presente
+        if (password) {
+            const hashPassword = await bcrypt.hash(password, 8);
+            sql += "password = ?, ";
+            params.push(hashPassword);
         }
-        if (result.affectedRows === 0) {
-            return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
+    
+        // Agregar `imagen_usuario` solo si hay una nueva imagen
+        if (imagenAsubir) {
+            sql += "imagen_usuario = ?, ";
+            params.push(imagenAsubir);
         }
-        const usuario = {...req.body,imagenAsubir, id_usuario};
-        res.json(usuario); // mostrar el elemento que existe
-    });
-};
+    
+        // Continuar con el resto de los campos
+        sql += "direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
+        params.push(direccion, localidad, celular, rol, id_usuario);
+    
+        // Ejecutar la consulta
+        db.query(sql, params, (error, result) => {
+            if (error) {
+                return res.status(500).json({ error: "ERROR: Intente más tarde por favor" });
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ error: "ERROR: El usuario a modificar no existe" });
+            }
+    
+            // Devolver los datos actualizados
+            const usuario = { ...req.body, imagen_usuario: imagenAsubir || undefined, id_usuario };
+            res.json(usuario);
+        });
+    };
+    
 
 
 const login = async (req, res) => {
