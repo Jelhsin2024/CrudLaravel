@@ -41,7 +41,7 @@ const showVideoPortada = (req, res) => {
 };
 
 //// METODO POST  ////
-const storeVideoPortada = (req, res) => {
+/* const storeVideoPortada = (req, res) => {
     const {nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada} = req.body;
     const sql = "INSERT INTO videoportadas (nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada) VALUES (?,?,?,?)";
     db.query(sql,[nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada], (error, result) => {
@@ -53,27 +53,126 @@ const storeVideoPortada = (req, res) => {
         res.status(201).json(videoPortada); // muestra creado con exito el elemento
     });     
 
+}; */
+//// METODO POST  ////
+const storeVideoPortada = (req, res) => {
+    let videoAsubir ="";
+    if(req.file){videoAsubir=req.file.filename;}
+    console.log(videoAsubir) 
+    const {nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada} = req.body;
+    const sql = "INSERT INTO videoportadas (nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada) VALUES (?,?,?,?)";
+    db.query(sql,[nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, videoAsubir], (error, result) => {
+        console.log(result);
+        if(error){
+            return res.status(500).json({error : "ERROR: Intente mas tarde por favor no se puede registrar el video portada"});
+        }
+        const videoPortada = {...req.body, id: result.insertId}; // ... reconstruir el objeto del body
+        res.status(201).json(videoPortada); // muestra creado con exito el elemento
+    });     
+
 };
 
-//// METODO PUT  ////
-const updateVideoPortada = (req, res) => {
-    const {id_videoportada} = req.params;
-    const {nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada} = req.body;
-    
-    const sql ="UPDATE videoportadas SET nombre_videoPortada = ?, tipo_videoPortada = ?, descripcion_videoPortada = ?, file_videoPortada = ? WHERE id = ?";
-    db.query(sql,[nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, file_videoPortada, id_videoportada], (error, result) => {
+/* const storePlatillo = (req, res) => {
+    let imagenAsubir ="";
+    if(req.file){imagenAsubir=req.file.filename;}
+    let rutaimagenAsubir="uploads/"+imagenAsubir;
+        
+
+    const {nombre, descripcion, precio, tipo} = req.body;
+    const sql = "INSERT INTO platillos (nombre, descripcion, precio, foto, tipo) VALUES (?,?,?,?,?)";
+    db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
         }
-        if(result.affectedRows == 0){
-            return res.status(404).send({error : "ERROR: El video portada a modificar no existeeeeeeeeeeee"});
-        };
-        
-        const videoportada = {...req.body, ...req.params}; // ... reconstruir el objeto del body
-
-        res.json(videoportada); // mostrar el elmento que existe
+        const platillo = {...req.body,rutaimagenAsubir, id: result.insertId}; // ... reconstruir el objeto del body
+        res.status(201).json(platillo); // muestra creado con exito el elemento
     });     
+
+}; */
+
+//// METODO PUT  ////
+const updateVideoPortada = (req, res) => {
+    //Asignamos el body filename a la variable videoAsuvir
+    let videoAsubir ="";
+    if(req.file){videoAsubir=req.file.filename;}
+
+    const {id_videoportada} = req.params;
+    const {nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada} = req.body;
+    
+    if(videoAsubir){
+        const sql ="UPDATE videoportadas SET nombre_videoPortada = ?, tipo_videoPortada = ?, descripcion_videoPortada = ?, file_videoPortada = ? WHERE id = ?";
+        db.query(sql,[nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, videoAsubir, id_videoportada], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El video portada a modificar no existeeeeeeeeeeee"});
+            };
+            
+            const videoportada = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+
+            res.json(videoportada); // mostrar el elmento que existe
+        });
+    }
+    else if(videoAsubir==""){
+        const sql ="UPDATE videoportadas SET nombre_videoPortada = ?, tipo_videoPortada = ?, descripcion_videoPortada = ? WHERE id = ?";
+        db.query(sql,[nombre_videoPortada, tipo_videoPortada, descripcion_videoPortada, id_videoportada], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El video portada a modificar no existeeeeeeeeeeee"});
+            };
+            
+            const videoportada = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+
+            res.json(videoportada); // mostrar el elmento que existe
+        });
+    }      
+};
+
+const updatePlatillo = (req, res) => {
+    let imagenAsubir ="";
+    if(req.file){imagenAsubir=req.file.filename;}
+        
+    const {id_platillo} = req.params;
+    const {nombre, descripcion, precio, tipo} = req.body;
+    
+    if(imagenAsubir){
+        const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, foto = ?, tipo = ? WHERE id = ?";
+        db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo, id_platillo], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El platillo a modificar no existe"});
+            };
+            
+            const pedido = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+
+            res.json(pedido); // mostrar el elmento que existe
+        });
+    }
+    else if(imagenAsubir==""){
+        const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, tipo = ? WHERE id = ?";
+        db.query(sql,[nombre, descripcion, precio, tipo, id_platillo], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El platillo a modificar no existe"});
+            };
+            
+            const pedido = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+
+            res.json(pedido); // mostrar el elmento que existe
+        });
+    }   
 };
 
 
