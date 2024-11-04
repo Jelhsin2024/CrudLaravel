@@ -3,20 +3,20 @@
 
 
 //capturando tbody para mostrar los usuarios
-const contenedor = document.getElementById('tbodyRegisterAdmin')
-let resultados =''
+/* const contenedor = document.getElementById('tbodyRegisterAdmin') */
 
+let resultados =''
 
 // Capturamos el modal para abrir y cerrar
 var modalRegistro = new bootstrap.Modal(document.getElementById('modalRegistro'));
 
 
-//Capturamos el form del modal
+//Capturamos el form del modal Registro para abrirlo
 const formRegister = document.getElementById('formModalId')
 //Capturamos el form login
 const formLoginId = document.getElementById('formLoginId')
 
-//Capturamos input del formulario del modal
+//Capturamos input del formulario del modal detalle por detalle
 const emailRegister = document.getElementById('emailRegister')
 const passwordRegister = document.getElementById('passwordRegister')
 const nombreRegister = document.getElementById('nombreRegister')
@@ -25,7 +25,19 @@ const direccionRegister = document.getElementById('direccionRegister')
 const localidadRegister = document.getElementById('localidadRegister')
 const rolRegister = document.getElementById('rolRegister')
 const celularRegister = document.getElementById('celularRegister')
+const fotoRegister = document.getElementById('fotoRegister')
 
+// Agrega un evento para detectar cambios en el input (cuando se selecciona un archivo del modal)
+let archivoSeleccionado = null;
+fotoRegister.addEventListener('change', (event) => {
+    archivoSeleccionado = event.target.files[0]; // Accede al archivo y lo guarda en la variable archivoSeleccionado
+    console.log("Archivo seleccionado:", archivoSeleccionado); // Imprime la información del archivo
+/*     if (archivoSeleccionado) {
+        console.log("Nombre del archivo:", archivoSeleccionado.name);
+        console.log("Tipo de archivo:", archivoSeleccionado.type);
+        console.log("Tamaño del archivo:", archivoSeleccionado.size);
+    } */
+});
 
 //Variable paga guardar o editar segun fuera el caso jejeje
 let opcion = ''
@@ -35,8 +47,6 @@ const passwordLogin = document.getElementById('passwordLogin')
 
 
 //funcion para abrir modal
-
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const btnRegister = document.getElementById('btnRegister');
@@ -50,46 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
         localidadRegister.value = ''
         rolRegister.value = ''
         celularRegister.value = ''
+        archivoSeleccionado = null;
+        fotoRegister.src=''
         modalRegistro.show()
         opcion = 'crear'
     });
 });
 
 
-//funcion para crear en en el dom
-const on = (element, event, selector, handler) => {
-    element.addEventListener(event, e => {
-        if(e.target.closest(selector)){
-            handler(e)
-        }
-    })
-}
 
 
-//procedimiento para login
-/* formLoginId.addEventListener('submit', (e)=>{
-    e.preventDefault()
-    
-        //ruta del login
-        fetch("http://localhost:3000/auth/login", {
-            method: 'POST',
-            headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({
-            email: emailLogin.value,
-            password: passwordLogin.value,
-            })
-        })
-        .then( response => response.json())
-        .then( data=>{})
-        .catch(error => console.log(error)); // Manejo de errores
-    
-    
-    
-}) */
-
-
-
-//Procedimiento para registrar un nuevo usuario desde el login y alertify para confirmacion
+//Procedimiento para Iniciar sesion redirigiendo a la pagina de platillos
 formLoginId.addEventListener("submit", (e) => {
     e.preventDefault();
     loginUsuario(); // Llama a la función que ya maneja la creación
@@ -144,7 +125,38 @@ formRegister.addEventListener("submit", (e) => {
 });
 
 async function registrarUsuario() {
-    const data = {
+    
+
+         // Crea un nuevo objeto FormData
+         const formData = new FormData();
+    
+         // Añade los datos del formulario al objeto FormData
+         formData.append('nombre', nombreRegister.value);
+         formData.append('apellido', apellidoRegister.value);
+         formData.append('email', emailRegister.value);
+         formData.append('password', passwordRegister.value);
+         formData.append('direccion', direccionRegister.value);
+         formData.append('localidad', localidadRegister.value);
+         formData.append('celular', celularRegister.value);
+         formData.append('rol', rolRegister.value);
+         if (archivoSeleccionado) {
+            formData.append('imagen_usuario', archivoSeleccionado); // Añade el archivo al FormData
+        } 
+        fetch("http://localhost:3000/api/auth/register", {
+            method: 'POST',
+            body: formData // Envía el FormData
+        })
+        .then((response) => response.json())
+        .then(() => {
+            alertify.success("Usuario Registrado con éxito");
+            setTimeout(() => location.reload(), 3000); // Refresca la página después de 2 segundos
+        })
+        .catch((error) => console.log(error));
+
+
+
+/*   
+         const data = {
         nombre: nombreRegister.value,
         apellido: apellidoRegister.value,
         email: emailRegister.value,
@@ -154,20 +166,16 @@ async function registrarUsuario() {
         celular: celularRegister.value,
         rol: rolRegister.value,
     };
-
-    try {
+try {
         const response = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
+            body: formData // Envía el FormData
         });
 
         if (response.ok) {
             const result = await response.json();
             alertify.success("Usuario registrado con éxito");
-/*             setTimeout(() => {
-                window.location.href = "/platillos.html";
-            }, 2000); */
+
         } else {
             const error = await response.json();
             alertify.error(`Error: ${error.message || "No se pudo registrar"}`);
@@ -175,7 +183,7 @@ async function registrarUsuario() {
     } catch (error) {
         alertify.error("Error en la conexión");
         console.error("Error en la solicitud", error);
-    }
+    } */
 }
 
 //FIIIIN Procedimiento para registrar un nuevo usuario desde el login y alertify para confirmacion

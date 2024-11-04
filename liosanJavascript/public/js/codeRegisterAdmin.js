@@ -207,7 +207,7 @@ formRegister.addEventListener("submit", (e) => {
     
         if (opcion === 'crear') {
             // Procedimiento para crear
-            fetch(url+"/register", {
+            fetch("http://localhost:3000/api/auth/register", {
                 method: 'POST',
                 body: formData // Envía el FormData
             })
