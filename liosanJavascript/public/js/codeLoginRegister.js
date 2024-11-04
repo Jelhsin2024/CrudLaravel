@@ -149,7 +149,8 @@ async function registrarUsuario() {
         .then((response) => response.json())
         .then(() => {
             alertify.success("Usuario Registrado con éxito");
-            setTimeout(() => location.reload(), 3000); // Refresca la página después de 2 segundos
+            setTimeout(() => location.reload(), 3500); 
+            // Refresca la página después de 3 segundos
         })
         .catch((error) => console.log(error));
 

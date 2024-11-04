@@ -134,34 +134,34 @@
                             <label for="emailRegister" class="form-label">Correo</label>
 
                             <input type="email" name="emailRegister" placeholder="Ingrese su correo"
-                                class="form-control" id="emailRegister"><!-- required -->
+                                class="form-control" id="emailRegister" required><!-- required -->
 
                         </div>
                         <div class="col-md-5">
                             <label for="passwordRegister" class="form-label">Contraseña</label>
                             <input type="password" class="form-control" name="passwordRegister" id="passwordRegister"
-                                placeholder="Ingrese su Contraseña">
+                                placeholder="Ingrese su Contraseña" required>
                         </div>
                         <div class="col-md-4">
                             <label for="nombreRegister" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombreRegister" name="nombreRegister"
-                                placeholder="Ingresar nombre">
+                                placeholder="Ingresar nombre" required>
                         </div>
                         <div class="col-md-4">
                             <label for="apellidoRegister" class="form-label">Apellido</label>
                             <input type="text" class="form-control" id="apellidoRegister" name="apellidoRegister"
-                                placeholder="Ingresar Apellido">
+                                placeholder="Ingresar Apellido" required>
                         </div>
 
 
                         <div class="col-md-6">
                             <label for="direccionRegister" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="direccionRegister" name="direccionRegister">
+                            <input type="text" class="form-control" id="direccionRegister" name="direccionRegister" required>
                         </div>
                         <div class="col-md-4">
                             <label for="localidadRegister" class="form-label">Localidad</label>
-                            <select class="form-select" id="localidadRegister" name="localidadRegister">
-                                <option selected>Elija una localidad</option>
+                            <select class="form-select" id="localidadRegister" name="localidadRegister" required>
+                                
                                 <option>Sarandí</option>
                                 <option>Wilde</option>
                                 <option>Quilmes</option>
@@ -170,8 +170,8 @@
                         </div>
                         <div class="col-md-4">
                             <label for="rolRegister" class="form-label">Rol</label>
-                            <select class="form-select" id="rolRegister" name="rolRegister">
-                                <option selected>Elija un Rol</option>
+                            <select class="form-select" id="rolRegister" name="rolRegister" required>
+                                
                                 <option>Administrador</option>
                                 <option>Mozo</option>
                                 <option>Recepcionista</option>
@@ -180,18 +180,18 @@
                         </div>
                         <div class="col-md-4">
                             <label for="celularRegister" class="form-label">Celular</label>
-                            <input type="number" class="form-control" id="celularRegister" name="celularRegister">
+                            <input type="number" class="form-control" id="celularRegister" name="celularRegister" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="foto" class="col-form-label">Foto</label>
                             <input type="file" class="form-control" id="fotoRegister"
-                                aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                                aria-describedby="inputGroupFileAddon04" aria-label="Upload" required>
                             <!-- <input id="foto" type="text" class="form-control" autofocus> -->
                         </div>
                         <div class="col-12">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="terminosCondiciones">
+                                <input class="form-check-input" type="checkbox" value="" id="terminosCondiciones" required>
                                 <label class="form-check-label" for="terminosCondiciones">
                                     Acepto los términos y condiciones
                                 </label>
@@ -201,7 +201,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" form="formModalId" data-bs-dismiss="modal"
+                    <button type="submit" form="formModalId"
                         class="btn btn-primary">Registrar</button>
                 </div>
             </div>
