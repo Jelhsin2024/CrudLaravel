@@ -57,6 +57,8 @@ app.use('/pages', express.static(path.join(__dirname, 'liosanJavascript/pages'))
 // Ruta estática para servir archivos en la carpeta pages
 app.use('/admin', express.static(path.join(__dirname, 'liosanJavascript/pages/admin')));
 
+/* app.use('/uploads', express.static(path.join(__dirname, 'liosanJavascript/public/uploads'))); */
+
 // Ruta estática para servir archivos en la carpeta pages
 app.use('/plato', express.static(path.join(__dirname, 'liosanJavascript/pages/plato')));
 

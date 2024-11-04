@@ -16,7 +16,6 @@ const nombre = document.getElementById('nombre')
 const descripcion = document.getElementById('descripcion')
 const precio = document.getElementById('precio')
 const foto = document.getElementById('foto')
-const imgModal = document.getElementById('imgModal')
 const tipo = document.getElementById('inputState')
 let opcion = ''
 
@@ -33,22 +32,26 @@ foto.addEventListener('change', (event) => {
 });
 
 
+
+
+
 // Inicialización del modal con opciones personalizadas (si es necesario)
 var modalPlatillo = new bootstrap.Modal(document.getElementById('modalPlatillo'), {
 
 });
 
+
 //funcion para abrir modal
+
 btnCrear.addEventListener('click',()=>{
     //limpiamos valores del modal
     nombre.value = ''
     descripcion.value = ''
     precio.value = ''
-    imgModal.src = ''
-    archivoSeleccionado = null;
+    foto.value = '';
     tipo.value = ''
     //mostramos el modal
-    
+
     modalPlatillo.show()
     //opcion para editar en el mismo modal
     opcion = 'crear'
@@ -63,8 +66,7 @@ const mostrar = (platillos)=>{
         <tr>
             <td>${platillo.id}</td>
             <td>
-                <img class="img-thumbnail img-fluid" src="../../public/${platillo.foto || 'default-image.jpg'}" alt="" width="150px">
-
+                <img  class="img-thumbnail img-fluid"  src="../../public/${platillo.foto}" alt="" width="150px">
             </td>
             
             <td>${platillo.nombre}</td>
@@ -160,30 +162,31 @@ let precioForm = 0
 }) */
 
     
-// Procedimiento para abrir el modal y cargar datos para editar
-on(document, 'click', '.btnEditar', e => {
-    const fila = e.target.parentNode.parentNode;
-    idForm = fila.children[0].innerHTML;
-
-    // Obtén el src de la imagen en la fila actual
-    const fotoForm = fila.querySelector('img').src; // Captura correctamente la imagen
-    imgModal.src = fotoForm;
-
-    // Asigna los valores al formulario
-    nombre.value = fila.children[2].innerHTML;
-    descripcion.value = fila.children[3].innerHTML;
-    tipo.value = fila.children[4].innerHTML;
-    precio.value = fila.children[5].innerHTML;
-
-    // Limpia la selección de archivo
-    archivoSeleccionado = null;
-    foto.value = ''; // Limpia el input de archivo
-    console.log(imgModal.src)
-    opcion = 'editar';
-    modalPlatillo.show();
+    // Procedimiento para abrir el modal y cargar datos para editar
+    on(document, 'click', '.btnEditar', e => {
+        const fila = e.target.parentNode.parentNode;
+        idForm = fila.children[0].innerHTML;
     
-});
+        // Obtén el src de la imagen en la fila actual
+        const fotoForm = fila.querySelector('img').src; // Captura correctamente la imagen
+        /* imgModal.src = fotoForm; // Muestra la imagen en el modal */
+        imgModal.src =fotoForm;
+        // Asigna los valores al formulario
+        nombre.value = fila.children[2].innerHTML;
+        descripcion.value = fila.children[3].innerHTML;
+        tipo.value = fila.children[4].innerHTML;
+        precio.value = fila.children[5].innerHTML;
     
+        // Limpia la selección de archivo
+        archivoSeleccionado = null;
+        foto.value = ''; // Limpia el input de archivo
+    
+        opcion = 'editar';
+        modalPlatillo.show();
+    });
+    
+
+//procedimiento para crear y editar los platillos
 
 formPlatillo.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -197,45 +200,36 @@ formPlatillo.addEventListener('submit', (e) => {
     formData.append('precio', precio.value);
     formData.append('tipo', tipo.value);
 
-    // Solo añadimos 'foto' al FormData si se seleccionó una nueva imagen
+    // Asegúrate de añadir el archivo si se ha seleccionado uno
     if (archivoSeleccionado) {
         formData.append('foto', archivoSeleccionado); // Añade el archivo al FormData
-    } else if (opcion === 'editar' && imgModal.src) {
-        // No añadimos el campo 'foto' al FormData si ya hay una imagen y no se seleccionó una nueva
-        console.log("Conservando la imagen actual, no se envía ninguna imagen nueva.");
     }
 
-    // En este punto, el `formData` tiene todos los datos excepto `foto` si no se seleccionó una nueva imagen.
-
-    if (opcion === 'crear') {
+    if (opcion == 'crear') {
         // Procedimiento para crear
         fetch(url, {
             method: 'POST',
-            body: formData // Envía el FormData
+            body: formData // Envía el FormData en lugar de JSON
         })
         .then(response => response.json())
         .then(data => {
-            mostrar([data]);
-            modalPlatillo.hide();
-            location.reload(); // Recargamos la página después de crear
+            const nuevoPlatillo = [];
+            nuevoPlatillo.push(data);
+            mostrar(nuevoPlatillo);
+            // Ocultamos el modal después de la creación
         })
         .catch(error => console.log(error)); // Manejo de errores
     }
 
-    if (opcion === 'editar') {
+    if (opcion == 'editar') {
         // Procedimiento para editar
-        console.log("Muestro que hay en el form data")
-        // Itera sobre los valores de formData para mostrarlos en la consola
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}:`, pair[1]);
-}
         fetch(url + idForm, {
             method: 'PUT',
-            body: formData // Envía el FormData
+            body: formData // Envía el FormData en lugar de JSON
         })
         .then(response => response.json())
-        .then(response => location.reload())
-            
-        /* .then(response => location.reload());  */// Recargamos la página después de editar
+        .then(response => location.reload());
     }
 });
+
+

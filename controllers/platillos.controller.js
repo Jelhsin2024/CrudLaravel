@@ -64,25 +64,44 @@ const storePlatillo = (req, res) => {
 const updatePlatillo = (req, res) => {
     let imagenAsubir ="";
     if(req.file){imagenAsubir=req.file.filename;}
+    
     let rutaimagenAsubir="uploads/"+imagenAsubir;
         
     const {id_platillo} = req.params;
     const {nombre, descripcion, precio, tipo} = req.body;
     
-    const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, foto = ?, tipo = ? WHERE id = ?";
-    db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo, id_platillo], (error, result) => {
-        console.log(result);
-        if(error){
-            return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
-        }
-        if(result.affectedRows == 0){
-            return res.status(404).send({error : "ERROR: El platillo a modificar no existe"});
-        };
-        
-        const pedido = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+    if(imagenAsubir){
+        const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, foto = ?, tipo = ? WHERE id = ?";
+        db.query(sql,[nombre, descripcion, precio, rutaimagenAsubir, tipo, id_platillo], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El platillo a modificar no existe"});
+            };
+            
+            const pedido = {...req.body, ...req.params}; // ... reconstruir el objeto del body
 
-        res.json(pedido); // mostrar el elmento que existe
-    });     
+            res.json(pedido); // mostrar el elmento que existe
+        });
+    }
+    else if(imagenAsubir==""){
+        const sql ="UPDATE platillos SET nombre = ?, descripcion = ?, precio = ?, tipo = ? WHERE id = ?";
+        db.query(sql,[nombre, descripcion, precio, tipo, id_platillo], (error, result) => {
+            console.log(result);
+            if(error){
+                return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
+            }
+            if(result.affectedRows == 0){
+                return res.status(404).send({error : "ERROR: El platillo a modificar no existe"});
+            };
+            
+            const pedido = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+
+            res.json(pedido); // mostrar el elmento que existe
+        });
+    }   
 };
 
 
