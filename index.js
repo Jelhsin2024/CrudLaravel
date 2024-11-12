@@ -7,8 +7,8 @@ const cookieParser = require('cookie-parser');
 const path = require("path");
 //importamos midilleware
 const { soloAdmin, soloPublico } = require("./middleware/admin.middleware");
-console.log("Tipo de soloAdmin:", typeof soloAdmin); // Debería mostrar "function"
-console.log("Tipo de soloPublico:", typeof soloPublico); // Debería mostrar "function"
+/* console.log("Tipo de soloAdmin:", typeof soloAdmin); // Debería mostrar "function"
+console.log("Tipo de soloPublico:", typeof soloPublico); // Debería mostrar "function" */
 
 
 

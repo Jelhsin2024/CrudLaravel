@@ -7,17 +7,17 @@ dotenv.config();
 
 function soloAdmin(req, res, next) {
     const logueado = revisarCookie(req, next, res);
-    console.log(logueado+" Verificamos si login es correcto con el token");
-    if (logueado) return next();
+    console.log(" Verificamos valor de la variable logueado: "+logueado);
+    if (logueado)return next();
 
     /* return res.redirect("/"); */
 
 }
 
 function soloPublico(req, res, next) {
-    const logueado = revisarCookie(req, next, res);
+/*     const logueado = revisarCookie(req, next, res);
     if (!logueado) return next();
-    return res.redirect("/admin");
+    return res.redirect("/admin"); */
 }
 
 function revisarCookie(req, next, res) {
@@ -43,6 +43,7 @@ function revisarCookie(req, next, res) {
         console.error("Error al verificar el token:", err);
         return false;
     }
+   
 }
 
 module.exports = {
