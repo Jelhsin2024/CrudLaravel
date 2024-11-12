@@ -94,7 +94,7 @@ async function loginUsuario() {
             alertify.success("Usuario logueado correctamente perrrroooooo!!!!!!!!");
             localStorage.setItem("token", result.token);
             setTimeout(() => {
-                window.location.href = "platillos.html";
+                window.location.href = "/admin/platillos";
             }, 3000);
         } else {
             const error = await response.json();

@@ -47,14 +47,14 @@ app.use("/api/auth", usuarioRouter);
 /* const __dirname = path.dirname(file) */
 
 
-//RUTAS ESTATICAS:
+//RUTAS ESTATICAS para que los levante el servidor:
 // Middleware para servir archivos estáticos en el servidor multi plataforma con el path.join(HTML, CSS, JS, imágenes, etc.)
 app.use('/', express.static(path.join(__dirname, 'liosanJavascript/')));
 
 // Ruta estática para servir archivos en la carpeta pages
 app.use('/pages', express.static(path.join(__dirname, 'liosanJavascript/pages')));
 
-// Ruta estática para servir archivos en la carpeta pages
+// Ruta estática para servir archivos en la carpeta admin
 app.use('/admin', express.static(path.join(__dirname, 'liosanJavascript/pages/admin')));
 
 /* app.use('/uploads', express.static(path.join(__dirname, 'liosanJavascript/public/uploads'))); */
@@ -69,9 +69,9 @@ app.get("/", (req, res) => {
 //RUTAS ESTATICAS FIN
 
 
-//Rutas de administracion en desarrollo
+//Rutas estaticas de administracion en desarrollo
 app.get("/login", (req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/login.html"));
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/admin/login.html"));
 });
 
 //RU
@@ -95,4 +95,4 @@ app.get("/admin/platillos", (req, res) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));
 
-/* console.log((__dirname + '/liosanJavascript/')) */
+/* console.log((__dirname + '/liosanJavascript/'+"RUTA DIRNAME Y")) */

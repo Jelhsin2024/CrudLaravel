@@ -20,6 +20,16 @@ const imgModal = document.getElementById('imgModal')
 const tipo = document.getElementById('inputState')
 let opcion = ''
 
+
+    // Capturamos el botón de logout
+    /* const logout = document.getElementById('logout'); */
+/*     logout.addEventListener('click', () => {
+        // Cerramos sesión eliminando los valores de la cookie
+        document.cookie = 'jwt=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.location.href = "/login";
+    }); */
+
+
 // Agrega un evento para detectar cambios en el input (cuando se selecciona un archivo)
 let archivoSeleccionado = null;
 foto.addEventListener('change', (event) => {

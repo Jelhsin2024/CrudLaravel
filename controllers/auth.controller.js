@@ -20,47 +20,12 @@ require("dotenv").config();
 const express = require("express");
 
 const app = express();
+const db = require("../db/db");
 
 ///MODULOS EXTRA PARA LOGUIN///
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
 //Seteamos urlencoded para capturar los datos del formulario
-
-/* app.use('/resources', express.static('public'));
-app.use('/resources', express.static(__dirname + '/public')); 
-//Seteamos urlencoded para referenciar archivos
-app.set('view engine', 'ejs'); */
-//Motor de plantillas de prueba
-
-/* const session = require('express-session');
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: true,
-    saveUninitialized:true
-})); */
-// usamos sesiones para guardar el loguin de inicio de sesion
-
-///FIN  MODULOS EXTRA PARA LOGUIN///
-
-const db = require("../db/db");
-
-//REGISTER ORIGINAL 
-/* const register = async (req, res) => {
-        const {nombre, apellido, email, password, direccion, localidad, celular, rol} = req.body;
-        const hashPassword = await bcrypt.hash(password,8)
-
-        const sql = "INSERT INTO usuarios (nombre, apellido, email, password, direccion, localidad, celular, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol], (error, result) => {
-            if (error) {
-                return res.status(500).json({error: "ERROR: Intente más tarde por favor"});
-            }
-            // Incluye el hash de la contraseña en la respuesta para que se pueda ver
-            const usuario = {...req.body, id: result.insertId, hashPassword};
-            res.status(201).json(usuario);
-
-        });
-    
-}; */
 
 // Register con imagen de usuario(Implementacion prueba)
 const register = async (req, res) => {
@@ -197,19 +162,33 @@ const register = async (req, res) => {
     
 
 
+
+//ORIGINAL FUNCIONANDO 
 const login = async (req, res) => {
     const { email, password } = req.body;
     if (email && password) {
         const sql = "SELECT * FROM usuarios WHERE email = ?";
         db.query(sql, [email], async (error, result) => {
+
             if (result.length === 0 || !(await bcrypt.compare(password, result[0].password))) {
                 console.log(' USUARIO o CONTRASEÑA INCORRECTAS');
+                console.log(result[0].password+" || Mostramos result 1");
                 return res.status(401).json({ message: ' USUARIO o CONTRASEÑA INCORRECTAS'});
             } else {
                 const token = jwt.sign({ userId: result[0].id }, process.env.SECRET_KEY, { expiresIn: "1h" });
-                res.json({ message: 'Inicio de sesión exitoso', token });
-
-                
+                /* res.json({ message: 'Inicio de sesión exitoso', token }); */
+                console.log(result[0].id)
+                //Agregamos cookie
+                const cookieOption = {
+                    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+                    //Convierto en dias, guarde un dia que es el valor que esta en la variable de enteorno
+                    path: "/",
+                        // Elimina HttpOnly si necesitas acceso desde JavaScript
+                    httpOnly: false,
+                    secure: false // Configura esto como true si estás en HTTPS
+                }
+                res.cookie("jwt",token, cookieOption);//Generamos la cookie
+                res.send({status:"ok",message:"Usuario Loggeado", redirect:"/admin/pedidos"});
             }
         });
     } else {
@@ -217,27 +196,31 @@ const login = async (req, res) => {
     }
 };
 
-
 /* const login = async (req, res) => {
-    const {email, password} = req.body;
-    let hashPassword = await bcrypt.hash(password,8)
-    if(email && pass){
-        const sql = "SELECT * FROM users WHERE user = ?";
-        db.query(sql,[email], async( error, result)=>{
-            if(results.length == 0 || !(await bcryptjs.compare(password, results[0].password))){
-                console.log(' USUARIO o CONTRASEÑA INCORRECTAS')
-                res.send(' USUARIO o CONTRASEÑA INCORRECTAS');
-            }
-            else{
-                console.log('Loguin BIEN PIOLLA WACHOOOOOOOOOOOOO')
-                res.send('Loguin BIEN PIOLLA WACHOOOOOOOOOOOOO')
+    const { email, password } = req.body;
+    if (email && password) {
+        const sql = "SELECT * FROM usuarios WHERE email = ?";
+        db.query(sql, [email], async (error, result) => {
+            if (result.length === 0 || !(await bcrypt.compare(password, result[0].password))) {
+                console.log('USUARIO o CONTRASEÑA INCORRECTAS');
+                return res.status(401).json({ message: 'USUARIO o CONTRASEÑA INCORRECTAS' });
+            } else {
+                const token = jwt.sign({ userId: result[0].id }, process.env.SECRET_KEY, { expiresIn: "1h" });
                 
+                // Agregamos cookie y enviamos respuesta
+                res.cookie("jwt", token, {
+                    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
+                    path: "/"
+                });
+                res.json({ status: "ok", message: "Inicio de sesión exitoso", token, redirect: "/admin/pedidos" });
             }
-        })
+        });
+    } else {
+        res.status(400).send('Email y contraseña son obligatorios');
     }
+};
+ */
 
-
-};  */
 
 const allUsuario = (req, res) => {
     const sql = "SELECT * FROM usuarios";
