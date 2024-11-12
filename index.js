@@ -5,6 +5,12 @@ const cors = require("cors");
 const app = express();
 const cookieParser = require('cookie-parser');
 const path = require("path");
+//importamos midilleware
+const { soloAdmin, soloPublico } = require("./middleware/admin.middleware");
+console.log("Tipo de soloAdmin:", typeof soloAdmin); // Debería mostrar "function"
+console.log("Tipo de soloPublico:", typeof soloPublico); // Debería mostrar "function"
+
+
 
 // Middleware para manejar cookies
 app.use(cookieParser());
@@ -14,6 +20,8 @@ app.use(cors());
 
 // Middleware para parsear JSON en solicitudes
 app.use(express.json());
+
+
 
 // Seteamos la carpeta liosanJavascript
 // Rutas API
@@ -55,7 +63,7 @@ app.use('/', express.static(path.join(__dirname, 'liosanJavascript/')));
 app.use('/pages', express.static(path.join(__dirname, 'liosanJavascript/pages')));
 
 // Ruta estática para servir archivos en la carpeta admin
-app.use('/admin', express.static(path.join(__dirname, 'liosanJavascript/pages/admin')));
+/* app.use('/admin', express.static(path.join(__dirname, 'liosanJavascript/pages/admin'))); */
 
 /* app.use('/uploads', express.static(path.join(__dirname, 'liosanJavascript/public/uploads'))); */
 
@@ -74,20 +82,29 @@ app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "/liosanJavascript/pages/admin/login.html"));
 });
 
-//RU
-app.get("/admin/platillos", (req, res) => {
+
+
+app.get("/admin/platillos", soloAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
 });
 
-app.get("/admin/pedidos", (req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/pedidos.html"));
+app.get("/admin/pedidos", soloAdmin,(req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/pedidosfinal.html"));
 });
-app.get("/admin/platillos", (req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+
+app.get("/admin/registeradmin", soloAdmin,(req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/registerAdmin.html"));
 });
-app.get("/admin/platillos", (req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+app.get("/admin/videosportada", soloAdmin,(req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/videosPortada.html"));
 });
+app.get("/admin/contacto", soloAdmin,(req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/contactoAdmin.html"));
+});
+app.get("/admin/comentarios", soloAdmin,(req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/comentariosAdmin.html"));
+});
+
 
 //Rutas de administracion en desarrollo FIIIN
 

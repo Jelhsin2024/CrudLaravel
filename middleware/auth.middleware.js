@@ -19,3 +19,9 @@ module.exports = (req, res, next) => {
         next();
     });
 };
+
+/* 
+export const methods = {
+    soloAdmin,
+    soloPublico
+} */
