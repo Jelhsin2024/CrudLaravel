@@ -55,71 +55,31 @@
 <body>
     <div id="app">
 
-        <div class="w-100 w-md-75 w-lg-50 mx-auto">
-
-            <!-- nav.html Admin-->
-<nav class="navbar navbar-expand-lg bg-light bg-white shadow-lg">
+        <!-- nav.html Admin-->
+<nav class="navbar navbar-expand-lg navbar-expand-sm navbar-expand-md bg-light bg-white shadow-lg">
     <div class="container-fluid">
         <a class="navbar-brand" href="../plato/indexEntrada.html">
             <img src="../../public/images/sarten.png" class="sartenAdmin" alt="Main Logo">
             <img src="../../public/images/logoo.ico" class="logoAdmin" alt="Main Logo">
-            <span class="admin">Administración</span>
+            <!-- <span class="admin">Administración</span> -->
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-<!--                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="pedidosfinal.html">
-                        <i class="fa-solid fa-bell-concierge"></i>
-                        Pedidos Final
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="pedidos.html">
-                        <i class="fa-solid fa-bell-concierge"></i>
-                        Pedidos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="platillos.html">
-                        <i class="fa-solid fa-drumstick-bite"></i>Platillos
-                    </a>
-                </li> -->
-<!--                 <li class="nav-item">
-                    <a class="nav-link active" href="login.html">
-                        <i class="fa-solid fa-drumstick-bite"></i>Login
-                    </a>
-                </li> -->
-<!--                 <li class="nav-item">
-                    <a class="nav-link active" href="registerAdmin.html">
-                        <i class="fa-solid fa-drumstick-bite"></i>Registro Admin
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="videosPortada.html">
-                        <i class="fa-solid fa-drumstick-bite"></i>Videos de portada
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <button id="logout" type="button" class="btn btn-outline-danger">Logout</button>
-                </li> -->
-            </ul>
-        </div>
+
     </div>
 </nav>
 
-            <div id="navbar-container"></div> <!-- Aquí se cargará el navbar -->
-        </div>
         <main class="py-4">
             <br>
             <br>
+<!--             <div >
+            <a class="admin">
+            Administración
+            </a>
+        </div> -->
             <br>
             <br>
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-md-5">
+                    <div class="col-sm-11 col-md-8 col-lg-6 col-xl-5">
                         <div class="card shadow bg-body">
                             <div class="card-header">Iniciar Sesión</div>
 
@@ -139,20 +99,19 @@
                                             placeholder="Introduzca su contraseña" class="form-control"
                                             id="passwordLogin" required />
                                     </div>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="terminossCondiciones" />
-                                        <label class="form-check-label" for="terminosCondiciones">Acepto los
-                                            Términos</label>
-                                    </div>
+                                    <br>
                                     <!-- Botones alineados usando Bootstrap -->
                                     <div class="modal-footer d-flex justify-content-between">
-                                        
+
                                         <!-- Botón Registrar a la izquierda -->
-                                        <button type="submit" class="btn btn-success">Ingresar</button>
+                                        <button type="submit"
+                                            class="btn btn-success col-xl-4  col-lg-4 col-md-4 col-sm-4 justify-content-center">Ingresar</button>
                                         <!-- Botón Ingresar a la derecha -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#modalRegistro" id="btnRegister" form="formLoginId">
-                                            Registrar nuevo usuario
+                                        <button type="button"
+                                            class="btn btn-primary col-xl-4 col-lg-4 col-md-4 col-sm-4 justify-content-center"
+                                            data-bs-toggle="modal" data-bs-target="#modalRegistro" id="btnRegister"
+                                            form="formLoginId">
+                                            Registrate
                                         </button>
 
                                     </div>
@@ -210,12 +169,13 @@
 
                         <div class="col-md-6">
                             <label for="direccionRegister" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="direccionRegister" name="direccionRegister" required>
+                            <input type="text" class="form-control" id="direccionRegister" name="direccionRegister"
+                                required>
                         </div>
                         <div class="col-md-4">
                             <label for="localidadRegister" class="form-label">Localidad</label>
                             <select class="form-select" id="localidadRegister" name="localidadRegister" required>
-                                
+
                                 <option>Sarandí</option>
                                 <option>Wilde</option>
                                 <option>Quilmes</option>
@@ -225,7 +185,7 @@
                         <div class="col-md-4">
                             <label for="rolRegister" class="form-label">Rol</label>
                             <select class="form-select" id="rolRegister" name="rolRegister" required>
-                                
+
                                 <option>Administrador</option>
                                 <option>Mozo</option>
                                 <option>Recepcionista</option>
@@ -234,7 +194,8 @@
                         </div>
                         <div class="col-md-4">
                             <label for="celularRegister" class="form-label">Celular</label>
-                            <input type="number" class="form-control" id="celularRegister" name="celularRegister" required>
+                            <input type="number" class="form-control" id="celularRegister" name="celularRegister"
+                                required>
                         </div>
 
                         <div class="mb-3">
@@ -245,7 +206,8 @@
                         </div>
                         <div class="col-12">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="terminosCondiciones" required>
+                                <input class="form-check-input" type="checkbox" value="" id="terminosCondiciones"
+                                    required>
                                 <label class="form-check-label" for="terminosCondiciones">
                                     Acepto los términos y condiciones
                                 </label>
@@ -255,8 +217,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" form="formModalId"
-                        class="btn btn-primary">Registrar</button>
+                    <button type="submit" form="formModalId" class="btn btn-primary">Registrar</button>
                 </div>
             </div>
         </div>

@@ -85,7 +85,7 @@ img.logoAdmin {
     /* border-radius: 8px; */
     position: absolute;
     top: 4%;
-    left: 15%;
+    left: 20%;
     /* box-shadow: 0px 0px 14px 1px rgb(0 0 0 / 50%); */
     /* z-index: -1; */
 }
@@ -103,6 +103,7 @@ img.sarten {
 img.sartenAdmin {
     width: 55px;
     height: 51px;
+	
     /* border-radius: 8px; */
     position: absolute;
     top: 1%;
@@ -117,7 +118,7 @@ img.sartenAdmin {
     /* border-radius: 8px; */
     position: absolute;
     top: 15%;
-    left: 25%;
+    left: 20%;
 	color: #4c545f;
 	text-decoration: none;
 

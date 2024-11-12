@@ -3859,11 +3859,18 @@ textarea.form-control-lg {
   max-height: var(--bs-scroll-height, 75vh);
   overflow-y: auto;
 }
-
+@media (min-width: 100px) {
+  .navbar-expand-sm {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    height: 61px;
+  }
+}
 @media (min-width: 576px) {
   .navbar-expand-sm {
     flex-wrap: nowrap;
     justify-content: flex-start;
+    height: 61px;
   }
   .navbar-expand-sm .navbar-nav {
     flex-direction: row;
@@ -3911,6 +3918,7 @@ textarea.form-control-lg {
   .navbar-expand-md {
     flex-wrap: nowrap;
     justify-content: flex-start;
+    height: 61px;
   }
   .navbar-expand-md .navbar-nav {
     flex-direction: row;
@@ -4009,6 +4017,7 @@ textarea.form-control-lg {
   .navbar-expand-xl {
     flex-wrap: nowrap;
     justify-content: flex-start;
+    height: 61px;
   }
   .navbar-expand-xl .navbar-nav {
     flex-direction: row;
