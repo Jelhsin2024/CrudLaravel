@@ -25,7 +25,7 @@ const allPedido = (req, res) => {
 // Para un Pedido
 const showPedido = (req, res) => {
     const {id_pedido} = req.params;
-    const sql = "SELECT * FROM pedidos WHERE id_pedido = ?";
+    const sql = "SELECT * FROM pedidos WHERE id = ?";
     db.query(sql,[id_pedido], (error, rows) => {
         console.log(rows);
         if(error){
@@ -42,6 +42,7 @@ const showPedido = (req, res) => {
 //// METODO POST  ////
 const storePedido = (req, res) => {
     const {n_mesa, n_platillo, fecha_hora, medio_pago} = req.body;
+    console.log("Fecha y hora recibida:", fecha_hora);
     const sql = "INSERT INTO pedidos (n_mesa, n_platillo, fecha_hora, medio_pago) VALUES (?,?,?,?)";
     db.query(sql,[n_mesa, n_platillo, fecha_hora, medio_pago], (error, result) => {
         console.log(result);

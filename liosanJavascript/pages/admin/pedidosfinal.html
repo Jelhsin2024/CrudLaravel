@@ -38,6 +38,7 @@
     <script src="../../public/js/app.js" defer></script>
     <script src="../../public/js/galery.js?28112022" defer></script>
     <script src="../../public/js/loadNav.js" defer></script> <!-- Archivo que cargará el nav -->
+    <script src="../../public/js/codePedidos.js" defer></script>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -60,56 +61,82 @@
 
                 <h1 class="container mb-4">Lista de Pedidos </h1>
                 </br>
-
-                <!-- Ingreso de datos del pedido -->
-                <div class="row justify-content-center">
-                    <div class="card shadow bg-body col-md-5">
-                        <div class="card-body ">
-                            <!--                         <div class="row justify-content-center">
-                                <div class="col-md-8"> -->
-                            <form>
-                                <div class="form-group row">
-                                    <label for="mesaPedido" class="col-sm-2 col-form-label">N° Mesa</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="mesaPedido"
-                                            placeholder="Ingrese la Mesa">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="platilloPedido" class="col-sm-2 col-form-label">Platillo</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="platilloPedido"
-                                            placeholder="Ingrese el platillo">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
+                <button id="btnCrear" type="button" class="btn btn-success" data-bs-toggle="modal"
+                    data-bs-target="#modalPedido">Ingresar Nuevo Pedido</button>
 
 
-                                    <label for="horapePedido" class="col-sm-2 col-form-label">Hora</label>
-                                    <div class="col-sm-10">
-                                        <input type="datetime-local" class="form-control" id="horapePedido">
+
+                <br><br><br><br>
+
+
+                <!-- Modal formulario de ingreso de datos modal-->
+
+                        <div id="modalPedido" class="modal fade " tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true" data-bs-target="#modalPedido">
+                            <br>
+                            <br>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresar nuevo platillo</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="formPlatillo" class="form-inline" enctype="multipart/form-data">
+
+                                            <div class="form-group row">
+                                                <label for="mesaPedido" class="col-sm-2 col-form-label">N° Mesa</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" id="mesaPedido"
+                                                        placeholder="Ingrese la Mesa">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="platilloPedido"
+                                                    class="col-sm-2 col-form-label">Platillo</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="platilloPedido"
+                                                        placeholder="Ingrese el platillo">
+                                                </div>
+                                            </div>
+
+                                            
+                                            <div class="form-group row">
+
+
+                                                <label for="horapePedido" class="col-sm-2 col-form-label">Hora</label>
+                                                
+                                                <p id="hora"></p>
+                                                <div class="col-sm-10">
+                                                    <input type="datetime-local" class="form-control" id="horadePedido">
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="medioPago" class="form-label">Medio de Pago</label>
+                                                <select class="form-select" id="medioPago" name="medioPago">
+                                                    <option selected>Elija un medio de pago</option>
+                                                    <option>Efectivo</option>
+                                                    <option>Transferencia</option>
+                                                </select>
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary"
+                                                    data-bs-dismiss="modal">Guardar</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="medioPago" class="form-label">Medio de Pago</label>
-                                    <select class="form-select" id="medioPago" name="medioPago">
-                                        <option selected>Elija un medio de pago</option>
-                                        <option>Efectivo</option>
-                                        <option>Trasferencia</option>
-                                    </select>
-                                </div>
-                                <br>
-                                <div class="form-group row">
-                                    <div class="col-sm-10">
-                                        <button type="submit" class="btn btn-success">Agregar Pedido</button>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <br>
 
+                <!-- FIN  Modal formulario de ingreso de datos modal-->
                 <!--TABLA DE PLATILLOS-->
                 <div class="card shadow bg-body">
                     <div class="card-body">
@@ -123,18 +150,18 @@
                                     <th>Mesa</th>
                                     <th>Platillo</th>
                                     <th>Fecha/Hora</th>
-                                    <th>Precio</th>
+                                    <th>Medio de Pago</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbodyId">
 
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <!-- Modal formulario de ingreso de datos modal-->
+
 
         </main>
     </div>
