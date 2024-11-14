@@ -108,6 +108,38 @@ app.get("/admin/comentarios", soloAdmin,(req, res) => {
 
 //Rutas de administracion en desarrollo FIIIN
 
+//Rutas estaticas de administracion en desarrollo
+app.get("/plato/pollos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/pollos.html"));
+});
+
+
+app.get("/plato/mariscos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/mariscos.html"));
+});
+app.get("/plato/chifa", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/chifa.html"));
+});
+app.get("/plato/sopas", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/sopas.html"));
+});
+app.get("/plato/criolla", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/criolla.html"));
+});
+app.get("/plato/saborisadas", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/bebidas.html"));
+});
+app.get("/plato/cervezas", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/cervezas.html"));
+});
+app.get("/plato/vinos", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/vinos.html"));
+});
+
+
+
+//Rutas de administracion en desarrollo FIIIN
+
 // Configura el puerto
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Servidor escuchando en http://localhost:${PORT}`));

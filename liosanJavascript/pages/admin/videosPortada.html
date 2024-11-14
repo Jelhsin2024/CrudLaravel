@@ -37,7 +37,7 @@
     <!-- Scripts -->
     <script src="../../public/js/app.js" defer></script>
     <script src="../../public/js/galery.js?28112022" defer></script> <!-- DESARROLLO JavaScript-->
-    <script src="../../public/js/codePlatillos.js" defer></script>
+    <script src="../../public/js/codeVideosPortada.js" defer></script>
     <script src="../../public/js/loadNav.js" defer></script> <!-- Archivo que cargará el nav -->
 
     <!-- Fonts -->
@@ -69,7 +69,7 @@
                 <!--                 <button id="btnCrear" type="button" class="btn btn-success" data-bs-toggle="modal" >Ingresar Nuevo Platillo</button> -->
 
                 <button id="btnCrear" type="button" class="btn btn-success" data-bs-toggle="modal"
-                    data-bs-target="#modalVideoPortada">Ingresar Nuevo Platillo</button>
+                    data-bs-target="#modalVideoPortada">Ingresar Nuevo Video</button>
 
                 </br></br></br>
 
@@ -85,8 +85,8 @@
                                     <th>ID</th>
                                     <th>Video</th>
                                     <th>Nombre</th>
-                                    <th>Tipo</th>
                                     <th>Descripcion</th>
+                                    <th>Tipo</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -105,28 +105,28 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresar nuevo platillo</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresar nuevo video</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formPlatillo" class="form-inline" enctype="multipart/form-data">
+                            <form id="formVideoPortada" class="form-inline" enctype="multipart/form-data">
 
                                 <!-- Mostrando en lista desplegable el tipo de platillo -->
                                 <div class="form-group col-md-6">
-                                    <label for="inputState">Ingrese a que portada pertenece</label>
-                                    <select id="inputState" class="form-control">
+                                    <label for="inputState">Ingrese a que portada pertenece el video</label>
+                                    <select class="form-select" aria-label="Default select example" id="tipoVideo">
+                                        <option selected>Seleciona la portada</option>
+                                        <option value="Entrada Portada">Entrada Portada</option>
+                                        <option value="Pollos Portada">Pollos Portada</option>
+                                        <option value="Mariscos Portada">Mariscos Portada</option>
+                                        <option value="Chifa Portada">Chifa Portada</option>
+                                        <option value="Sopas Portada">Sopas Portada</option>
+                                        <option value="Criolla Portada">Criolla Portada</option>
+                                        <option value="Saborisadas Portada">Saborisadas Portada</option>
+                                        <option value="Vinos Portada">Vinos Portada</option>
+                                        <option value="Cervezas Portada">Cervezas Portada</option>
+                                      </select>
 
-                                        <option>Entrada Portada</option>
-                                        <option>Pollos Portada</option>
-                                        <option>Mariscos Portada</option>
-                                        <option>Chifa Portada</option>
-                                        <option>Sopas Portada</option>
-                                        <option>Criolla Portada</option>
-                                        <option>Saborisadas Portada</option>
-                                        <option>Vinos Portada</option>
-                                        <option>Cervezas Portada</option>
-
-                                    </select>
                                 </div>
 
                                 <div class="mb-3">

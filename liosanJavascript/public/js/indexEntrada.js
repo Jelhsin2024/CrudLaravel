@@ -25,7 +25,7 @@ const mostrarIndex = (indexplatillos)=>{
                 </div>
                 <h4>${indexplatillo.nombre}</h4>
                 <p class="showPlatillo" >${indexplatillo.descripcion}</p>
-                <b>${indexplatillo.precio}</b>
+                <b>$${indexplatillo.precio}</b>
                 </div>
             </div>
         `}
