@@ -37,7 +37,7 @@
     <!-- Scripts -->
     <script src="../../public/js/app.js" defer></script>
     <script src="../../public/js/galery.js?28112022" defer></script> <!-- DESARROLLO JavaScript-->
-    <script src="../../public/js/codePlatillos.js" defer></script>
+    <script src="../../public/js/codeContactos.js" defer></script>
     <script src="../../public/js/loadNav.js" defer></script> <!-- Archivo que cargará el nav -->
 
     <!-- Fonts -->
@@ -61,7 +61,7 @@
             <br>
             <div class="container">
 
-                <h1 class="container mb-4">Lista de Videos de Portada</h1>
+                <h1 class="container mb-4">Lista de Contacto</h1>
                 <h1 id="welcome"></h1>
                 <p id="role"></p>
                 </br>
@@ -69,7 +69,7 @@
                 <!--                 <button id="btnCrear" type="button" class="btn btn-success" data-bs-toggle="modal" >Ingresar Nuevo Platillo</button> -->
 
                 <button id="btnCrear" type="button" class="btn btn-success" data-bs-toggle="modal"
-                    data-bs-target="#modalVideoPortada">Ingresar Nuevo Platillo</button>
+                    data-bs-target="#modalContacto">Ingresar un contacto</button>
 
                 </br></br></br>
 
@@ -83,10 +83,13 @@
                             <thead class="">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Video</th>
-                                    <th>Nombre</th>
-                                    <th>Tipo</th>
-                                    <th>Descripcion</th>
+                                    <th>Dirección Maps</th>
+                                    <th>Número Principal</th>
+                                    <th>Número Secundario</th>
+                                    <th>WhatsApp</th>
+                                    <th>Dirección</th>
+
+                                    <th>Descripción</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -100,64 +103,75 @@
             <!-- Modal formulario de ingreso de datos modal-->
 
 
-            <div id="modalVideoPortada" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true" data-bs-target="#modalVideoPortada">
+            <div id="modalContacto" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" data-bs-target="#modalContacto">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ingresar nuevo platillo</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ingrese medios de contacto</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form id="formPlatillo" class="form-inline" enctype="multipart/form-data">
+                            <form id="formContacto" class="form-inline" enctype="multipart/form-data">
 
-                                <!-- Mostrando en lista desplegable el tipo de platillo -->
-                                <div class="form-group col-md-6">
-                                    <label for="inputState">Ingrese a que portada pertenece</label>
-                                    <select id="inputState" class="form-control">
-
-                                        <option>Entrada Portada</option>
-                                        <option>Pollos Portada</option>
-                                        <option>Mariscos Portada</option>
-                                        <option>Chifa Portada</option>
-                                        <option>Sopas Portada</option>
-                                        <option>Criolla Portada</option>
-                                        <option>Saborisadas Portada</option>
-                                        <option>Vinos Portada</option>
-                                        <option>Cervezas Portada</option>
-
-                                    </select>
+                                <label for="nombre" class="col-form-label">Número Principal</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-telephone-fill"></i>
+                                    </span>
+                                    <input id="numeroPrincipal" type="number" class="form-control" autofocus placeholder="Ingrese el número sin 0 o 15">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="nombre" class="col-form-label">Nombre</label>
-                                    <input id="nombreVideo" type="text" class="form-control" autofocus>
+                                <label for="nombre" class="col-form-label">Número Secundario</label>
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-telephone"></i>
+                                    </span>
+
+                                    <input id="numeroSecundario" type="number" class="form-control" autofocus placeholder="Ingrese el número sin 0 o 15">
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="descripcion" class="col-form-label">Descripción</label>
-                                    <input id="descripcionVideo" type="text" class="form-control" autofocus>
-                                </div>
-                                <div class="mb-3">
+                                <label for="nombre" class="col-form-label">WhatsApp</label>
+                                <div class="input-group mb-3">
 
-                                    <video class="img-thumbnail img-fluid" src="" id="videoModal" width="150px" autoplay
-                                        muted loop></video>
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </span>
 
+                                    <input id="whatsapp" type="number" class="form-control" placeholder="Ingrese número por ejemplo: 1141424344 ">
                                 </div>
-                                <!--                            <td>
-                                    <img  class="img-thumbnail img-fluid" id="imgModal" src="" alt="" width="150px">
-                                </td> -->
-                                <div class="mb-3">
-                                    <label for="Video" class="col-form-label">Video</label>
-                                    <input type="file" class="form-control" id="video"
-                                        aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                    <!-- <input id="foto" type="text" class="form-control" autofocus> -->
+
+                                <label for="nombre" class="col-form-label">Dirección</label>
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-map-fill"></i>
+                                    </span>
+
+                                    <input id="direccion" type="text" class="form-control" placeholder="Ingrese la dirección del Restaurante">
                                 </div>
-                                <!--                                 <div class="input-group">
-                                    <label for="foto" class="col-form-label">Foto</label>
-                                    <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                
-                                </div> -->
+
+                                <label for="nombre" class="col-form-label">Dirección Maps</label>
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                    </span>
+
+                                    <input id="direccionMaps" type="text" class="form-control" placeholder="Copie la direccion de google maps Aquí">
+                                </div>
+
+
+                                <label for="nombre" class="col-form-label">Descripción</label>
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-sticky-fill"></i>
+                                    </span>
+
+                                    <input id="acercaDe" type="text" class="form-control" placeholder="Ingrese acerca del Restaurante">
+                                </div>
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
