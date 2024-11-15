@@ -41,9 +41,9 @@ const showContacto = (req, res) => {
 
 
 const storeContacto = (req, res) => {
-    const {celular, celular2, whatsapp, direccion, direccionMaps, descripcion} = req.body;
-    const sql = "INSERT INTO contactos (celular, celular2, whatsapp, direccion, direccionMaps, descripcion) VALUES (?,?,?,?,?,?)";
-    db.query(sql,[celular, celular2, whatsapp, direccion, direccionMaps, descripcion], (error, result) => {
+    const {celular, celular2, whatsapp, direccion, direccionMaps, descripcion, activo} = req.body;
+    const sql = "INSERT INTO contactos (celular, celular2, whatsapp, direccion, direccionMaps, descripcion, activo) VALUES (?,?,?,?,?,?,?)";
+    db.query(sql,[celular, celular2, whatsapp, direccion, direccionMaps, descripcion, activo], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
@@ -60,10 +60,10 @@ const storeContacto = (req, res) => {
 // Para actualizar un contacto
 const updateContacto = (req, res) => {
     const {id_contacto} = req.params;
-    const {celular, celular2, whatsapp, direccion, direccionMaps, descripcion} = req.body;
+    const {celular, celular2, whatsapp, direccion, direccionMaps, descripcion, activo} = req.body;
     
-    const sql = "UPDATE contactos SET celular = ?, celular2 = ?, whatsapp = ?, direccion = ?, direccionMaps = ?, descripcion = ? WHERE id = ?";
-    db.query(sql, [celular, celular2, whatsapp, direccion, direccionMaps, descripcion, id_contacto], (error, result) => {
+    const sql = "UPDATE contactos SET celular = ?, celular2 = ?, whatsapp = ?, direccion = ?, direccionMaps = ?, descripcion = ?, activo = ? WHERE id = ?";
+    db.query(sql, [celular, celular2, whatsapp, direccion, direccionMaps, descripcion, activo, id_contacto], (error, result) => {
         if (error) {
             return res.status(500).json({error: "ERROR: Intente más tarde por favor."});
         }

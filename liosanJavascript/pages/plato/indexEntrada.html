@@ -27,8 +27,10 @@
   <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js" defer></script>
 
   <!-- DESARROLLO JavaScript-->
-  <script src="../../public/js/indexEntrada.js" defer></script>
-  <script src="../../public/js/loadNavIndex.js" defer></script> <!-- Archivo que cargará el nav Index-->
+  <script src="../../public/js/codeMenu.js" defer></script>
+  <script src="../../public/js/codeLoadContactoIndex.js" defer></script>
+  <script src="../../public/js/loadNavIndex.js" defer></script><!-- Archivo que cargará el nav Index-->
+  <script src="../../public/js/loadFooterIndex.js" defer></script> <!-- Archivo que cargará el footer Index-->
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -44,25 +46,27 @@
 <!-- Boton flotante whatsapp-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-<a href="https://api.whatsapp.com/send?phone=+5491138668253&text=🔥¡Vi%20la%20carta%20digital!🔥%20%20Quiero%20hacerte%20un%20pedido🍗🗒%20%20%20📌"
-  class="float" target="_blank">
-  <i class="fa fa-whatsapp my-float"></i>
-</a>
-<!-- Boton flotante llamada-->
 
-<a href="tel:+5491138668253" class="float-tel" target="_blank">
-  <i class="fa fa-solid fa-phone"></i>
-</a>
+
 
 <body>
+  <!-- Botones flotantes de whatsapp y telefono -->
+  <div id="whatsapp">
+    <!-- se inserta el whatsapp aqui de desde el administrador -->
+  </div>
+  <!-- Boton flotante llamada-->
+  <div id="telefono">
+  <!-- se inserta el whatsapp aqui de desde el administrador -->
+  </div>
+
   <div class="container">
     <div class="w-100 w-md-75 w-lg-50 mx-auto">
       <div id="navbar-container-index"></div><!-- Aqui se carga el nav del index -->
 
 
 
-      <div class="clvideo">
-        <video src="../../public/video/361.mp4" autoplay muted loop></video>
+      <div class="clvideo"   id="videoPortada">
+        <!-- Contenido de la base de datos llamados por la js/codeMenu.js -->
       </div>
 
       <main class="py-3">
@@ -97,5 +101,7 @@
   <!-- JavaScript ALERTIFY-->
 
 </body>
-
+<div class="container" id="footer">
+  <!-- Aqui se carga el footer -->
+</div>
 </html>

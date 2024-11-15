@@ -15,6 +15,8 @@ const whatsapp = document.getElementById('whatsapp');
 const direccion = document.getElementById('direccion');
 const direccionMaps = document.getElementById('direccionMaps');
 const acercaDe = document.getElementById('acercaDe');
+const visibilidad = document.getElementById('visibilidad');
+
 let opcion = '';
 
 // Inicialización del modal con opciones personalizadas (si es necesario)
@@ -29,6 +31,7 @@ btnCrear.addEventListener('click', () => {
     direccion.value = ''; 
     direccionMaps.value = ''; 
     acercaDe.value = '';
+    visibilidad.value = '';
     // Mostramos el modal
     modalContacto.show();
     // Opción para crear en el mismo modal
@@ -38,6 +41,15 @@ btnCrear.addEventListener('click', () => {
 // Función para mostrar los contactos
 const mostrar = (contactos) => {
     contactos.forEach(contacto => {
+        let trasformBooleano="" 
+        if(contacto.activo==1){
+
+            trasformBooleano="Habilitado"
+        }
+        else{
+            trasformBooleano="Deshabilitado"
+        }
+
     resultados += `
         <tr>
             <td>${contacto.id}</td>
@@ -49,7 +61,8 @@ const mostrar = (contactos) => {
             <td>${contacto.celular}</td>
             <td>${contacto.celular2}</td>
             <td>${contacto.whatsapp}</td>
-            <td>${contacto.direccion}</td>           
+            <td>${contacto.direccion}</td>
+            <td>${trasformBooleano}</td>            
             <td>${contacto.descripcion}</td> 
             <td class="text-center">
                 <a class="btnEditar btn btn-warning">Editar</a>
@@ -115,7 +128,7 @@ on(document, 'click', '.btnEditar', async (e) => {
         direccion.value = contacto.direccion;
         
         acercaDe.value = contacto.descripcion;
-
+        visibilidad.value = contacto.activo;
         opcion = 'editar';
         modalContacto.show();
     } catch (error) {
@@ -144,7 +157,8 @@ console.log(src);
         whatsapp: whatsapp.value,
         direccion: direccion.value,
         direccionMaps: src,
-        descripcion: acercaDe.value
+        descripcion: acercaDe.value,
+        activo: visibilidad.value
     };
 
     const metodo = opcion === 'crear' ? 'POST' : 'PUT';

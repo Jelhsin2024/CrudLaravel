@@ -88,6 +88,7 @@
                                     <th>Número Secundario</th>
                                     <th>WhatsApp</th>
                                     <th>Dirección</th>
+                                    <th>Estado</th>
 
                                     <th>Descripción</th>
                                     <th>Acciones</th>
@@ -162,6 +163,21 @@
                                     <input id="direccionMaps" type="text" class="form-control" placeholder="Copie la direccion de google maps Aquí">
                                 </div>
 
+                                <label for="nombre" class="col-form-label">Estado</label>
+                                <div class="input-group mb-3">
+
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </span>
+
+                                    <select class="form-select" aria-label="Default select example" id="visibilidad">
+                                        <option selected>Seleccione la visibilidad</option>
+                                        <option value="1">Habilidato</option>
+                                        <option value="0">Deshabilitado</option>
+
+                                      </select>
+                                </div>
+
 
                                 <label for="nombre" class="col-form-label">Descripción</label>
                                 <div class="input-group mb-3">
@@ -172,6 +188,8 @@
 
                                     <input id="acercaDe" type="text" class="form-control" placeholder="Ingrese acerca del Restaurante">
                                 </div>
+
+
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"

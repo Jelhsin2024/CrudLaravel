@@ -10,10 +10,78 @@ const videoPortada = document.getElementById('videoPortada');
 
 const contenedorH3 = document.getElementById('h3Entrada');
 
+
+
 h3=contenedorH3.innerHTML
 
 let resultadosIndex =''
 let resultadosIndexVideoPortada =''
+
+
+
+
+
+/* Funcion para mostrar Portada de Pollos */
+if (h3=="Entradas"){
+    //funcion para mostrar buscar la portada y mostrarla
+    
+    const portadaIndexPollos = (indexVideoPortadas)=>{
+        indexVideoPortadas.forEach(indexVideoPortada => {
+            if(indexVideoPortada.tipo_videoPortada=="Entrada Portada"){
+                resultadosIndexVideoPortada+=`
+
+                <video src="../../public/video/${indexVideoPortada.file_videoPortada || '../../public/video/361.mp4'}" autoplay muted loop ></video>	
+            `}
+        })
+        //mostramos con la variable resultado
+        videoPortada.innerHTML = resultadosIndexVideoPortada
+    }
+    
+    //Procedimiento para mostrar
+    fetch(urlVideos)
+        .then( responsee => responsee.json())
+        .then( dataIndex => portadaIndexPollos(dataIndex))
+        .catch( error => console.log(error))
+    
+    
+    }
+
+
+if (h3=="Entradas"){
+    //funcion para mostrar los platillos en INDEX
+    
+    const mostrarIndex = (indexplatillos)=>{
+        indexplatillos.forEach(indexplatillo => {
+            if(indexplatillo.tipo=="Entrada"){
+            resultadosIndex+=`
+                <div class="cuadricula_items">
+                    <div class="cuadricula_caja">
+                    <div class="imga">
+                        <img src="../../public/${indexplatillo.foto}" class="card-img-top" alt="..." onclick="openFulImg(this.src)" >
+                    </div>
+                    <h4>${indexplatillo.nombre}</h4>
+                    <p class="showPlatillo" >${indexplatillo.descripcion}</p>
+                    <b>$${indexplatillo.precio}</b>
+                    </div>
+                </div>
+            `}
+        })
+        //mostramos con la variable resultado
+        contenedorIndex.innerHTML = resultadosIndex
+    }
+    
+    
+    
+    //Procedimiento para mostrar
+    fetch(urlIndex)
+        .then( response => response.json())
+        .then( dataIndex => mostrarIndex(dataIndex))
+        .catch( error => console.log(error))
+    
+    }
+
+
+
 
 /* Funcion para mostrar Portada de Pollos */
 if (h3=="Pollos"){
