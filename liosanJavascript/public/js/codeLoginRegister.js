@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         apellidoRegister.value = ''
         direccionRegister.value = ''
         localidadRegister.value = ''
-        rolRegister.value = ''
+        /* rolRegister.value = '' */
         celularRegister.value = ''
         archivoSeleccionado = null;
         fotoRegister.src=''
@@ -125,104 +125,39 @@ formRegister.addEventListener("submit", (e) => {
 });
 
 async function registrarUsuario() {
-    
+    const formData = new FormData();
 
-         // Crea un nuevo objeto FormData
-         const formData = new FormData();
-    
-         // Añade los datos del formulario al objeto FormData
-         formData.append('nombre', nombreRegister.value);
-         formData.append('apellido', apellidoRegister.value);
-         formData.append('email', emailRegister.value);
-         formData.append('password', passwordRegister.value);
-         formData.append('direccion', direccionRegister.value);
-         formData.append('localidad', localidadRegister.value);
-         formData.append('celular', celularRegister.value);
-         formData.append('rol', rolRegister.value);
-         if (archivoSeleccionado) {
-            formData.append('imagen_usuario', archivoSeleccionado); // Añade el archivo al FormData
-        } 
-        fetch("http://localhost:3000/api/auth/register", {
-            method: 'POST',
-            body: formData // Envía el FormData
-        })
-        .then((response) => response.json())
-        .then(() => {
-            alertify.success("Usuario Registrado con éxito");
-            setTimeout(() => location.reload(), 3500); 
-            // Refresca la página después de 3 segundos
-        })
-        .catch((error) => console.log(error));
+    // Añade los datos del formulario al objeto FormData
+    formData.append("nombre", nombreRegister.value);
+    formData.append("apellido", apellidoRegister.value);
+    formData.append("email", emailRegister.value);
+    formData.append("password", passwordRegister.value);
+    formData.append("direccion", direccionRegister.value);
+    formData.append("localidad", localidadRegister.value);
+    formData.append("celular", celularRegister.value);
+    if (archivoSeleccionado) {
+        formData.append("imagen_usuario", archivoSeleccionado); // Añade el archivo al FormData
+    }
 
-
-
-/*   
-         const data = {
-        nombre: nombreRegister.value,
-        apellido: apellidoRegister.value,
-        email: emailRegister.value,
-        password: passwordRegister.value,
-        direccion: direccionRegister.value,
-        localidad: localidadRegister.value,
-        celular: celularRegister.value,
-        rol: rolRegister.value,
-    };
-try {
+    try {
         const response = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
-            body: formData // Envía el FormData
+            body: formData,
         });
 
         if (response.ok) {
-            const result = await response.json();
-            alertify.success("Usuario registrado con éxito");
-
+            alertify.success("Usuario Registrado con éxito");
+            setTimeout(() => location.reload(), 3500);
+        } else if (response.status === 409) {
+            // Manejar error de correo duplicado
+            const error = await response.json();
+            alertify.error(error.error || "El correo ya está registrado");
         } else {
             const error = await response.json();
-            alertify.error(`Error: ${error.message || "No se pudo registrar"}`);
+            alertify.error(error.error || "No se pudo registrar el usuario");
         }
     } catch (error) {
         alertify.error("Error en la conexión");
         console.error("Error en la solicitud", error);
-    } */
-}
-
-//FIIIIN Procedimiento para registrar un nuevo usuario desde el login y alertify para confirmacion
-
-//procedimiento para crear un usuario desde el login
-/* formRegister.addEventListener('submit', (e)=>{
-    e.preventDefault()
-    if(opcion=='crear'){
-        //Procedimiento para crear
-        fetch("http://localhost:3000/auth/register", {
-            method: 'POST',
-            headers: {
-            'Content-Type':'application/json'
-        },
-        body: JSON.stringify({
-            nombre: nombreRegister.value,
-            apellido:apellidoRegister.value,
-            email: emailRegister.value,
-            password: passwordRegister.value,
-            direccion: direccionRegister.value,
-            localidad: localidadRegister.value,
-            celular: celularRegister.value,
-            rol: rolRegister.value
-
-            })
-        })
-        .then( response => response.json())
-        .then( data=>{
-
-        })
-        .catch(error => console.log(error)); // Manejo de errores
     }
-    
-    
-}) */
-
-
-
-
-
-
+}

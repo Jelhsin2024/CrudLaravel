@@ -29,25 +29,45 @@ app.use(express.json());
 
 // Register con imagen de usuario(Implementacion prueba)
 const register = async (req, res) => {
-    let imagenAsubir ="";
-    if(req.file){imagenAsubir=req.file.filename;}
-/*     let rutaimagenAsubir="uploads/"+imagenAsubir; */
-        
-    /* console.log(rutaimagenAsubir) */
-    const {nombre, apellido, email, password, direccion, localidad, celular, rol} = req.body;
-    const hashPassword = await bcrypt.hash(password,8)
+    let imagenAsubir = "";
+    if (req.file) {
+        imagenAsubir = req.file.filename;
+    }
 
-    const sql = "INSERT INTO usuarios (nombre, apellido, email, password, direccion, localidad, celular, rol, imagen_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, imagenAsubir], (error, result) => {
-        if (error) {
-            return res.status(500).json({error: "ERROR: Intente más tarde por favor"});
-        }
-        // Incluye el hash de la contraseña en la respuesta para que se pueda ver
-        const usuario = {...req.body, id: result.insertId,imagenAsubir, hashPassword};
-        res.status(201).json(usuario);
-    });
+    const { nombre, apellido, email, password, direccion, localidad, celular, rol } = req.body;
+    const rolFinal = rol || "Cliente";
 
+    try {
+        // Verificar si el correo ya existe en la base de datos
+        const sqlCheckEmail = "SELECT * FROM usuarios WHERE email = ?";
+        db.query(sqlCheckEmail, [email], async (error, result) => {
+            if (error) {
+                return res.status(500).json({ error: "ERROR: Intente más tarde por favor" });
+            }
+
+            if (result.length > 0) {
+                // Si ya existe un usuario con el correo, devolvemos un error
+                return res.status(409).json({ error: "ERROR: Ya existe un usuario con este correo" });
+            }
+
+            // Si no existe, continuamos con el registro
+            const hashPassword = await bcrypt.hash(password, 8);
+            const sqlInsert = "INSERT INTO usuarios (nombre, apellido, email, password, direccion, localidad, celular, rol, imagen_usuario) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            db.query(sqlInsert, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rolFinal, imagenAsubir], (insertError, insertResult) => {
+                if (insertError) {
+                    return res.status(500).json({ error: "ERROR: Intente más tarde por favor" });
+                }
+
+                // Incluye los datos en la respuesta
+                const usuario = { ...req.body, id: insertResult.insertId, imagen_usuario: imagenAsubir, rol: rolFinal };
+                res.status(201).json(usuario);
+            });
+        });
+    } catch (err) {
+        res.status(500).json({ error: "ERROR: Hubo un problema con el servidor" });
+    }
 };
+
 
 /* const updateUsuario = async (req, res) => {
     let imagenAsubir ="";
