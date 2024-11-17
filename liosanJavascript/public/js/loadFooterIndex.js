@@ -62,7 +62,8 @@ const cargarContactosEnFooter = () => {
                 const direccionMaps = document.getElementById('direccionMaps');
                 direccionMaps.innerHTML += `
                         <h6 class="text-uppercase mb-4 font-weight-bold">Maps</h6>
-                        <iframe src="${contactoActivo.direccionMaps}" width="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mx-auto mt-3" src="${contactoActivo.direccionMaps}" title="Mapa de Restaurante LIO SAN"
+ width="340"  height="220"style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
  
                 `;
 

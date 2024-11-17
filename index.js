@@ -16,7 +16,13 @@ console.log("Tipo de soloPublico:", typeof soloPublico); // Debería mostrar "fu
 app.use(cookieParser());
 
 // Middleware para habilitar CORS
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000', // Permite solicitudes desde este origen
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
+    allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+    credentials: true // Habilita el envío de cookies
+}));
+
 
 // Middleware para parsear JSON en solicitudes
 app.use(express.json());
@@ -69,6 +75,16 @@ app.use('/pages', express.static(path.join(__dirname, 'liosanJavascript/pages'))
 
 // Ruta estática para servir archivos en la carpeta pages
 app.use('/plato', express.static(path.join(__dirname, 'liosanJavascript/pages/plato')));
+
+// Ruta estática para servir archivos en la carpeta public
+/* app.use('/public', express.static(path.join(__dirname, 'liosanJavascript/public')));
+app.use('/css', express.static(path.join(__dirname, 'liosanJavascript/public/css')));
+app.use('/images', express.static(path.join(__dirname, 'liosanJavascript/public/images')));
+app.use('/js', express.static(path.join(__dirname, 'liosanJavascript/public/js'))); */
+app.use('/images', express.static(path.join(__dirname, 'liosanJavascript/public/images')));
+
+
+
 
 // Ruta principal "/" que servirá tu archivo index.html
 app.get("/", (req, res) => {
