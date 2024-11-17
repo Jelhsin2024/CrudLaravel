@@ -1,4 +1,4 @@
-// loadNav.js
+/* // loadNav.js
 fetch('/pages/admin/footer.html')
     .then(response => {
         if (!response.ok) {
@@ -10,7 +10,7 @@ fetch('/pages/admin/footer.html')
         document.getElementById('footer').innerHTML = data;
     })
     .catch(error => console.error('Error al cargar el navbar:', error));
-
+ */
 
     // URL del footer y API de contactos
 const footerUrl = '/pages/admin/footer.html';

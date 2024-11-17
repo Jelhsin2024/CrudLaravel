@@ -216,30 +216,34 @@ const login = async (req, res) => {
     }
 };
 
-/* const login = async (req, res) => {
-    const { email, password } = req.body;
-    if (email && password) {
-        const sql = "SELECT * FROM usuarios WHERE email = ?";
-        db.query(sql, [email], async (error, result) => {
-            if (result.length === 0 || !(await bcrypt.compare(password, result[0].password))) {
-                console.log('USUARIO o CONTRASEÑA INCORRECTAS');
-                return res.status(401).json({ message: 'USUARIO o CONTRASEÑA INCORRECTAS' });
-            } else {
-                const token = jwt.sign({ userId: result[0].id }, process.env.SECRET_KEY, { expiresIn: "1h" });
-                
-                // Agregamos cookie y enviamos respuesta
-                res.cookie("jwt", token, {
-                    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-                    path: "/"
-                });
-                res.json({ status: "ok", message: "Inicio de sesión exitoso", token, redirect: "/admin/pedidos" });
+const getRolUsuario = (req, res) => {
+    try {
+        const cookieHeader = req.headers.cookie || ""; // Obtenemos las cookies de la solicitud
+        const cookieJWT = cookieHeader.split("; ").find((cookie) => cookie.startsWith("jwt="));
+
+        if (!cookieJWT) {
+            return res.status(401).json({ message: "No autorizado: No se encontró el token JWT" });
+        }
+
+        const token = cookieJWT.slice(4); // Extraemos el token (eliminando el prefijo "jwt=")
+        const decoded = jwt.verify(token, process.env.SECRET_KEY); // Verificamos el token
+
+        // Consultamos el rol del usuario en la base de datos
+        const sql = "SELECT rol FROM usuarios WHERE id = ?";
+        db.query(sql, [decoded.userId], (error, result) => {
+            if (error || result.length === 0) {
+                return res.status(404).json({ message: "Usuario no encontrado" });
             }
+
+            // Devolvemos el rol del usuario
+            res.json({ rol: result[0].rol });
         });
-    } else {
-        res.status(400).send('Email y contraseña son obligatorios');
+    } catch (error) {
+        console.error("Error al obtener el rol del usuario:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
     }
 };
- */
+
 
 
 const allUsuario = (req, res) => {
@@ -303,5 +307,6 @@ module.exports = {
     showUsuario,
     /* storeUsuario, */
     updateUsuario,
-    destroyUsuario
+    destroyUsuario,
+    getRolUsuario, 
 };
