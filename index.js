@@ -93,32 +93,42 @@ app.get("/", (req, res) => {
 //RUTAS ESTATICAS FIN
 
 
-//Rutas estaticas de administracion en desarrollo
+//Ruta para login general
 app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "/liosanJavascript/pages/admin/login.html"));
 });
 
 
+//Rutas para el rol de los usuarios:
 
-app.get("/admin/platillos", soloAdmin, (req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+
+
+
+const { verificarRol } = require("./middleware/admin.middleware");
+
+// Rutas para roles específicos
+app.get("/admin/comentarios", verificarRol(["Cliente", "Administrador"]), (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/comentariosAdmin.html"));
 });
 
-app.get("/admin/pedidos", soloAdmin,(req, res) => {
+app.get("/admin/pedidos", verificarRol(["Mozo", "Recepcionista", "Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/pedidosfinal.html"));
 });
 
-app.get("/admin/registeradmin", soloAdmin,(req, res) => {
+app.get("/admin/platillos", verificarRol(["Recepcionista", "Administrador"]), (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/platillos.html"));
+});
+
+app.get("/admin/registeradmin", verificarRol(["Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/registerAdmin.html"));
 });
-app.get("/admin/videosportada", soloAdmin,(req, res) => {
+
+app.get("/admin/videosportada", verificarRol(["Recepcionista", "Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/videosPortada.html"));
 });
-app.get("/admin/contacto", soloAdmin,(req, res) => {
+
+app.get("/admin/contacto", verificarRol(["Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/contactoAdmin.html"));
-});
-app.get("/admin/comentarios", soloAdmin,(req, res) => {
-    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/comentariosAdmin.html"));
 });
 
 
