@@ -69,75 +69,7 @@ const register = async (req, res) => {
 };
 
 
-/* const updateUsuario = async (req, res) => {
-    let imagenAsubir ="";
-    if(req.file){imagenAsubir=req.file.filename;}
-    
 
-    const {id_usuario} = req.params;
-    const {nombre, apellido, email, password, direccion, localidad, celular, rol} = req.body;
-    const hashPassword = await bcrypt.hash(password,8)
-    if(imagenAsubir){
-        console.log("Mostramos que hay en imagnesubir:",imagenAsubir," mostramos que hau en password:",password)
-        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, direccion = ?, localidad = ?, celular = ?, rol = ?, imagen_usuario = ? WHERE id = ?";
-        db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, imagenAsubir, id_usuario], (error, result) => {
-            if (error) {
-                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
-            }
-            const usuario = {...req.body,imagenAsubir, id_usuario};
-            res.json(usuario); // mostrar el elemento que existe
-        });
-    }
-
-     else if(imagenAsubir=="" && password){
-        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, password = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
-        db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol, id_usuario], (error, result) => {
-            if (error) {
-                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
-            }
-            const usuario = {...req.body,imagenAsubir, id_usuario};
-            res.json(usuario); // mostrar el elemento que existe
-        });
-    
-    }
-
-    else if(imagenAsubir=="" && password==""){
-        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
-        db.query(sql, [nombre, apellido, email, direccion, localidad, celular, rol, id_usuario], (error, result) => {
-            if (error) {
-                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
-            }
-            const usuario = {...req.body,imagenAsubir, id_usuario};
-            res.json(usuario); // mostrar el elemento que existe
-        });
-    
-    }
-
-    else if(imagenAsubir && password==""){
-        const sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
-        db.query(sql, [nombre, apellido, email, direccion, localidad, celular, rol, imagenAsubir, id_usuario], (error, result) => {
-            if (error) {
-                return res.status(500).json({error: "ERROR: Intente más tarde por favor servidor murio"});
-            }
-            if (result.affectedRows === 0) {
-                return res.status(404).send({error: "ERROR: El usuario a modificar no existe"});
-            }
-            const usuario = {...req.body,imagenAsubir, id_usuario};
-            res.json(usuario); // mostrar el elemento que existe
-        });
-    
-    } 
-
-} */
 
     const updateUsuario = async (req, res) => {
         let imagenAsubir = req.file ? req.file.filename : ""; // Asigna el nombre de la imagen si existe
@@ -145,9 +77,15 @@ const register = async (req, res) => {
         const { nombre, apellido, email, password, direccion, localidad, celular, rol } = req.body;
     
         // Preparar los datos para la consulta
-        let sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, ";
-        let params = [nombre, apellido, email];
+        let sql = "UPDATE usuarios SET nombre = ?, apellido = ?, ";
+        let params = [nombre, apellido];
         
+
+        // Agregar `password` si está presente
+        if (email) {
+            sql += "email = ?, ";
+            params.push(email);
+        }
         // Agregar `password` si está presente
         if (password) {
             const hashPassword = await bcrypt.hash(password, 8);
@@ -160,10 +98,15 @@ const register = async (req, res) => {
             sql += "imagen_usuario = ?, ";
             params.push(imagenAsubir);
         }
+        // Agregar `rol` solo si hay un rol
+        if (rol) {
+            sql += "rol = ? ";
+            params.push(rol);
+        }
     
         // Continuar con el resto de los campos
-        sql += "direccion = ?, localidad = ?, celular = ?, rol = ? WHERE id = ?";
-        params.push(direccion, localidad, celular, rol, id_usuario);
+        sql += "direccion = ?, localidad = ?, celular = ? WHERE id = ?";
+        params.push(direccion, localidad, celular, id_usuario);
     
         // Ejecutar la consulta
         db.query(sql, params, (error, result) => {
@@ -185,38 +128,51 @@ const register = async (req, res) => {
 
 //ORIGINAL FUNCIONANDO 
 const login = async (req, res) => {
-    const { email, password } = req.body;
-    if (email && password) {
-        const sql = "SELECT * FROM usuarios WHERE email = ?";
+    const { email, password } = req.body; // Extraemos email y password del cuerpo de la solicitud
+    if (email && password) { // Verificamos que ambos valores estén presentes
+        const sql = "SELECT * FROM usuarios WHERE email = ?"; // Consulta SQL para buscar al usuario por email
         db.query(sql, [email], async (error, result) => {
-
-            if (result.length === 0 || !(await bcrypt.compare(password, result[0].password))) {
-                console.log(' USUARIO o CONTRASEÑA INCORRECTAS');
-                console.log(result[0].password+" || Mostramos result 1");
-                return res.status(401).json({ message: ' USUARIO o CONTRASEÑA INCORRECTAS'});
-            } else {
-                const token = jwt.sign({ userId: result[0].id }, process.env.SECRET_KEY, { expiresIn: "1h" });
-                /* res.json({ message: 'Inicio de sesión exitoso', token }); */
-                console.log(result[0].id)
-                //Agregamos cookie
-                const cookieOption = {
-                    expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000),
-                    //Convierto en dias, guarde un dia que es el valor que esta en la variable de enteorno
-                    path: "/",
-                        // Elimina HttpOnly si necesitas acceso desde JavaScript
-                    httpOnly: false,
-                    secure: false // Configura esto como true si estás en HTTPS
-                }
-                res.cookie("jwt",token, cookieOption);//Generamos la cookie
-                res.send({status:"ok",message:"Usuario Loggeado", redirect:"/admin/pedidos"});
+            if (error) {
+                console.error("Error en la consulta de la base de datos:", error);
+                return res.status(500).json({ message: "Error interno del servidor." });
             }
+
+            if (result.length === 0) {
+                console.log("Correo electrónico no registrado.");
+                return res.status(401).json({ message: "USUARIO o CONTRASEÑA INCORRECTAS" });
+            }
+
+            // Si llegamos aquí, significa que encontramos un usuario
+            const usuario = result[0];
+
+            // Comparamos la contraseña
+            const contraseñaValida = await bcrypt.compare(password, usuario.password);
+            if (!contraseñaValida) {
+                console.log("Contraseña incorrecta.");
+                return res.status(401).json({ message: "USUARIO o CONTRASEÑA INCORRECTAS" });
+            }
+
+            // Si las credenciales son correctas, generamos el token
+            const token = jwt.sign({ userId: usuario.id }, process.env.SECRET_KEY, { expiresIn: "24H" });
+
+            console.log("Usuario con ID:" + usuario.id + " se ha logueado correctamente ;)");
+            // Agregamos cookie
+            const cookieOption = {
+                expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000), // Convertimos días en milisegundos
+                path: "/",
+                httpOnly: false, // Cambiar a true en producción
+                secure: false // Cambiar a true si se usa HTTPS
+            };
+            res.cookie("jwt", token, cookieOption); // Generamos la cookie
+            res.send({ status: "ok", message: "Usuario Logueado", redirect: "/admin/pedidos" });
         });
     } else {
-        res.status(400).send('Email y contraseña son obligatorios');
+        res.status(400).send("Email y contraseña son obligatorios.");
     }
 };
 
-const getRolUsuario = (req, res) => {
+
+/* const getRolUsuario = (req, res) => {
     try {
         const cookieHeader = req.headers.cookie || ""; // Obtenemos las cookies de la solicitud
         const cookieJWT = cookieHeader.split("; ").find((cookie) => cookie.startsWith("jwt="));
@@ -243,7 +199,7 @@ const getRolUsuario = (req, res) => {
         res.status(500).json({ message: "Error interno del servidor" });
     }
 };
-
+ */
 
 
 const allUsuario = (req, res) => {
@@ -270,19 +226,6 @@ const showUsuario = (req, res) => {
     });
 };
 
-/* const storeUsuario = async (req, res) => {
-    const {nombre, apellido, email, password, direccion, localidad, celular, rol} = req.body;
-    const hashPassword = await bcrypt.hash(password,8)
-
-    const sql = "INSERT INTO usuarios (nombre, apellido, email, password, direccion, localidad, celular, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    db.query(sql, [nombre, apellido, email, hashPassword, direccion, localidad, celular, rol], (error, result) => {
-        if (error) {
-            return res.status(500).json({error: "ERROR: Intente más tarde por favor"});
-        }
-        const usuario = {...req.body, id: result.insertId};
-        res.status(201).json(usuario);
-    });
-}; */
 
 
 
@@ -305,8 +248,8 @@ module.exports = {
     login,
     allUsuario,
     showUsuario,
-    /* storeUsuario, */
+
     updateUsuario,
     destroyUsuario,
-    getRolUsuario, 
+
 };

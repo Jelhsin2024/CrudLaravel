@@ -131,6 +131,10 @@ app.get("/admin/contacto", verificarRol(["Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/contactoAdmin.html"));
 });
 
+app.get("/admin/usuario", verificarRol(["Cliente","Recepcionista", "Mozo", "Recepcionista","Administrador"]), (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/usuarioAdmin.html"));
+});
+
 
 //Rutas de administracion en desarrollo FIIIN
 

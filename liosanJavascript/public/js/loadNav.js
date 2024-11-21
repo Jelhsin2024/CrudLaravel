@@ -41,11 +41,21 @@ async function cargarNav() {
                         <i class="fa-solid fa-comments"></i>Comentarios
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/usuario">
+                        <i class="fa-solid fa-user"></i>Perfil
+                    </a>
+                </li>
             `,
             Mozo: `
                 <li class="nav-item">
                     <a class="nav-link active" href="/admin/pedidos">
                         <i class="fa-solid fa-bell-concierge"></i>Pedidos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/usuario">
+                        <i class="fa-solid fa-user"></i>Perfil
                     </a>
                 </li>
             `,
@@ -63,6 +73,11 @@ async function cargarNav() {
                 <li class="nav-item">
                     <a class="nav-link active" href="/admin/videosportada">
                         <i class="fa-solid fa-film"></i>Videos
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/usuario">
+                        <i class="fa-solid fa-user"></i>Perfil
                     </a>
                 </li>
             `,
@@ -95,6 +110,11 @@ async function cargarNav() {
                 <li class="nav-item">
                     <a class="nav-link active" href="/admin/comentarios">
                         <i class="fa-solid fa-comments"></i>Comentarios
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/usuario">
+                        <i class="fa-solid fa-user"></i>Perfil
                     </a>
                 </li>
             `,
