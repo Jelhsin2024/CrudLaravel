@@ -1,9 +1,19 @@
-//definicion de url
-/* const url = 'http://localhost:3000/api/platillos/' */
+// Captura el botón y el campo de la contraseña
+const togglePassword = document.getElementById("togglePassword");
+const passwordField = document.getElementById("passwordLogin");
+const toggleIcon = document.getElementById("toggleIcon");
 
+// Agrega un evento de clic al botón
+togglePassword.addEventListener("click", () => {
+    // Cambia el tipo del campo de contraseña
+    const type = passwordField.type === "password" ? "text" : "password";
+    passwordField.type = type;
 
-//capturando tbody para mostrar los usuarios
-/* const contenedor = document.getElementById('tbodyRegisterAdmin') */
+    // Cambia el ícono del botón
+    toggleIcon.classList.toggle("fa-eye");
+    toggleIcon.classList.toggle("fa-eye-slash");
+});
+
 
 let resultados =''
 
@@ -93,11 +103,12 @@ async function loginUsuario() {
 
         if (response.ok) {
             const result = await response.json();
-            alertify.success("Usuario logueado correctamente perrrroooooo!!!!!!!!");
+            alertify.success("¡Usuario logueado correctamente!");
+            alertify.success("¡Bienvenid@!");
             localStorage.setItem("token", result.token);
             setTimeout(() => {
-                window.location.href = "/admin/pedidos";
-            }, 3000);
+                window.location.href = "/admin/usuario";
+            }, 3500);
         } else {
             const error = await response.json();
             alertify.error(`Error: ${error.message || "No se pudo loguear :( lpm!!!"}`);

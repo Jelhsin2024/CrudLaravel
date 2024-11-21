@@ -95,10 +95,14 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="passwordLogin" class="form-label">Contraseña</label>
-                                        <input type="password" name="passwordLogin"
-                                            placeholder="Introduzca su contraseña" class="form-control"
-                                            id="passwordLogin" required />
+                                        <div class="input-group">
+                                            <input type="password" name="passwordLogin" placeholder="Introduzca su contraseña" class="form-control" id="passwordLogin" required>
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i class="fa-solid fa-eye" id="toggleIcon"></i>
+                                            </button>
+                                        </div>
                                     </div>
+                                    
                                     <br>
                                     <!-- Botones alineados usando Bootstrap -->
                                     <div class="modal-footer d-flex justify-content-between">

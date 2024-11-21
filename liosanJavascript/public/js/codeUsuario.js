@@ -45,7 +45,7 @@ const mostrar = (registros) => {
                 Apellido: ${registro.apellido}
             </li>
             <li class="mb-3 pl-4" >
-                <span class="position-absolute" ><i class="fa-solid fa-signature"></i></span>
+                <span class="position-absolute" ><i class="fa-solid fa-envelope"></i></span>
                 <!-- Aqui va el Apeelido -->
                 Correo: ${registro.email}
             </li>
