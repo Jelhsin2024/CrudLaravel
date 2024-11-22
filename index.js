@@ -110,6 +110,9 @@ const { verificarRol } = require("./middleware/admin.middleware");
 app.get("/admin/comentarios", verificarRol(["Cliente", "Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/comentariosAdmin.html"));
 });
+app.get("/admin/comentarioscliente", verificarRol(["Cliente"]), (req, res) => {
+    res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/comentariosCliente.html"));
+});
 
 app.get("/admin/pedidos", verificarRol(["Mozo", "Recepcionista", "Administrador"]), (req, res) => {
     res.sendFile(path.join(__dirname, "liosanJavascript/pages/admin/pedidosfinal.html"));
@@ -164,6 +167,9 @@ app.get("/plato/cervezas", (req, res) => {
 });
 app.get("/plato/vinos", (req, res) => {
     res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/vinos.html"));
+});
+app.get("/contacto/comentarios", (req, res) => {
+    res.sendFile(path.join(__dirname, "/liosanJavascript/pages/plato/contactoComentarios.html"));
 });
 
 

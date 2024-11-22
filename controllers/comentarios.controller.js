@@ -41,9 +41,49 @@ const showComentario = (req, res) => {
 
 //// METODO POST  ////
 const storeComentario = (req, res) => {
-    const {nombreID, puntuacion, comentario, respuesta, nombre} = req.body;
+
+
+/*     const {nombreID, puntuacion, comentario, respuesta, nombre} = req.body;
     const sql = "INSERT INTO comentarios (nombreID, puntuacion, comentario, respuesta, nombre) VALUES (?,?,?,?,?)";
-    db.query(sql,[nombreID, puntuacion, comentario, respuesta, nombre], (error, result) => {
+    console.log('Datos Recibidos:');
+    console.log('Nombre ID:', nombreID);
+    console.log('Nombre:', nombre);
+    console.log('Puntuación:', puntuacion);
+    console.log('Comentario:', comentario);
+    console.log('Respuesta:', respuesta);
+    if(respuesta==""){
+        respuesta="";
+    } */
+
+        const { nombreID, puntuacion, comentario, respuesta, nombre } = req.body;
+    
+        // Preparar los datos para la consulta
+        let sql = "INSERT INTO comentarios (nombreID, puntuacion, comentario, ";
+
+        let params = [nombreID, puntuacion,comentario];
+        
+
+        // Agregar `password` si está presente
+        if (respuesta) {
+            sql += "respuesta, ";
+
+            params.push(respuesta);
+        }
+
+    
+        // Continuar con el resto de los campos
+        sql += "nombre)";
+        params.push(nombre);
+        if(respuesta){
+            sql += " VALUES (?, ?, ?, ?, ?)";
+        }
+        else {
+            sql += " VALUES (?, ?, ?, ?)";
+        }
+
+
+         
+    db.query(sql,params, (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor no se puede cargar el comentario :("});
@@ -56,23 +96,53 @@ const storeComentario = (req, res) => {
 
 //// METODO PUT  ////
 const updateComentario = (req, res) => {
-    const {id_comentario} = req.params;
-    const {nombreID, puntuacion, comentario, respuesta, nombre} = req.body;
-    
-    const sql ="UPDATE comentarios SET nombreID = ?, puntuacion = ?, comentario = ?, respuesta = ?, nombre = ? WHERE id = ?";
-    db.query(sql,[nombreID, puntuacion, comentario, respuesta, nombre, id_comentario], (error, result) => {
-        console.log(result);
-        if(error){
-            return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
-        }
-        if(result.affectedRows == 0){
-            return res.status(404).send({error : "ERROR: El comentario a modificar no existe"});
-        };
-        
-        const comentario = {...req.body, ...req.params}; // ... reconstruir el objeto del body
+    const { id_comentario } = req.params;
+    const { nombreID, puntuacion, comentario, respuesta, nombre } = req.body;
 
-        res.json(comentario); // mostrar el elmento que existe
-    });     
+    // Base de la consulta
+    let sql = "UPDATE comentarios SET ";
+    let params = [];
+
+    // Agregar dinámicamente campos presentes en el cuerpo de la solicitud
+    if (nombreID) {
+        sql += "nombreID = ?, ";
+        params.push(nombreID);
+    }
+    if (puntuacion) {
+        sql += "puntuacion = ?, ";
+        params.push(puntuacion);
+    }
+    if (comentario) {
+        sql += "comentario = ?, ";
+        params.push(comentario);
+    }
+    if (respuesta) {
+        sql += "respuesta = ?, ";
+        params.push(respuesta);
+    }
+    if (nombre) {
+        sql += "nombre = ?, ";
+        params.push(nombre);
+    }
+
+    // Eliminar la coma final y agregar WHERE
+    sql = sql.slice(0, -2); // Elimina la última coma y espacio
+    sql += " WHERE id = ?";
+    params.push(id_comentario);
+
+    // Ejecutar la consulta
+    db.query(sql, params, (error, result) => {
+        if (error) {
+            console.error("Error al actualizar el comentario:", error);
+            return res.status(500).json({ error: "ERROR: Intente más tarde por favor" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "ERROR: El comentario a modificar no existe" });
+        }
+
+        const comentario = { ...req.body, id: id_comentario }; // Reconstruir el objeto de respuesta
+        res.json(comentario); // Devolver el comentario actualizado
+    });
 };
 
 

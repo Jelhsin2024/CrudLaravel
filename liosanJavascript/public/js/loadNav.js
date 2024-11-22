@@ -37,8 +37,8 @@ async function cargarNav() {
         const opcionesNav = {
             Cliente: `
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin/comentarios">
-                        <i class="fa-solid fa-comments"></i>Comentarios
+                    <a class="nav-link active" href="/admin/comentarioscliente">
+                        <i class="fa-solid fa-comments"></i>Comentarios Cliente
                     </a>
                 </li>
                 <li class="nav-item">
@@ -109,7 +109,7 @@ async function cargarNav() {
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="/admin/comentarios">
-                        <i class="fa-solid fa-comments"></i>Comentarios
+                        <i class="fa-solid fa-comments"></i>Comentarios Admin
                     </a>
                 </li>
                 <li class="nav-item">

@@ -100,7 +100,7 @@ const register = async (req, res) => {
         }
         // Agregar `rol` solo si hay un rol
         if (rol) {
-            sql += "rol = ? ";
+            sql += "rol = ?, ";
             params.push(rol);
         }
     
@@ -153,7 +153,7 @@ const login = async (req, res) => {
             }
 
             // Si las credenciales son correctas, generamos el token
-            const token = jwt.sign({ userId: usuario.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
+            const token = jwt.sign({ userId: usuario.id }, process.env.SECRET_KEY, { expiresIn: "6h" });
 
             console.log("Usuario con ID:" + usuario.id + " se ha logueado correctamente ;)");
             // Agregamos cookie
