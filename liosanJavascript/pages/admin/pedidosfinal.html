@@ -89,7 +89,7 @@
                                                 <label for="mesaPedido" class="col-sm-2 col-form-label">N° Mesa</label>
                                                 <div class="col-sm-10">
                                                     <input type="number" class="form-control" id="mesaPedido"
-                                                        placeholder="Ingrese la Mesa">
+                                                        placeholder="Ingrese la Mesa"required>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -97,7 +97,15 @@
                                                     class="col-sm-2 col-form-label">Platillo</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" id="platilloPedido"
-                                                        placeholder="Ingrese el platillo">
+                                                        placeholder="Ingrese el platillo" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="platilloTotal"
+                                                    class="col-sm-2 col-form-label">Total a pagar</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" id="platilloTotal"
+                                                        placeholder="Ingrese el Total a pagar"required>
                                                 </div>
                                             </div>
 
@@ -109,14 +117,14 @@
                                                 
                                                 <p id="hora"></p>
                                                 <div class="col-sm-10">
-                                                    <input type="datetime-local" class="form-control" id="horadePedido">
+                                                    <input type="datetime-local" class="form-control" id="horadePedido"required>
                                                 </div>
 
 
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="medioPago" class="form-label">Medio de Pago</label>
-                                                <select class="form-select" id="medioPago" name="medioPago">
+                                                <select class="form-select" id="medioPago" name="medioPago" required>
                                                     <option selected>Elija un medio de pago</option>
                                                     <option>Efectivo</option>
                                                     <option>Transferencia</option>
@@ -149,6 +157,7 @@
                                     <th>ID</th>
                                     <th>Mesa</th>
                                     <th>Platillo</th>
+                                    <th>Pago Total</th>
                                     <th>Fecha/Hora</th>
                                     <th>Medio de Pago</th>
                                     <th>Acciones</th>

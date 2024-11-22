@@ -10,6 +10,7 @@ const formPedido = document.querySelector('form');
 
 // Seleccionando inputs del formulario modal
 const mesaPedido = document.getElementById('mesaPedido');
+const platilloTotal = document.getElementById('platilloTotal');
 const platilloPedido = document.getElementById('platilloPedido');
 const horadePedido = document.getElementById('horadePedido');
 const medioPago = document.getElementById('medioPago');
@@ -22,6 +23,7 @@ btnCrear.addEventListener('click', () => {
     mesaPedido.value = '';
     platilloPedido.value = '';
     horadePedido.value = '';
+    platilloTotal.value="";
     medioPago.value = '';
 
     modalPedido.show();
@@ -54,6 +56,7 @@ const mostrar = (pedidos) => {
             <td>${pedido.id}</td>
             <td>${pedido.n_mesa}</td>
             <td>${pedido.n_platillo}</td>
+            <td>${pedido.totalPago}</td>
             <td>${fechaLegible}</td>
             <td>${pedido.medio_pago}</td>
             <td class="text-center">
@@ -120,6 +123,7 @@ on(document, 'click', '.btnEditar', async (e) => {
 
         // Asignar los valores al formulario
         mesaPedido.value = pedido.n_mesa;
+        platilloTotal.value = pedido.totalPago;
         platilloPedido.value = pedido.n_platillo;
         horadePedido.value = pedido.fecha_hora.slice(0, 16); // Formatear para datetime-local (YYYY-MM-DDTHH:MM)
         medioPago.value = pedido.medio_pago;
@@ -146,6 +150,7 @@ formPedido.addEventListener('submit', (e) => {
     // Crear el objeto de datos a enviar
     const data = {
         n_mesa: mesaPedido.value,
+        totalPago: platilloTotal.value,
         n_platillo: platilloPedido.value,
         fecha_hora: fechaHoraFormateada, // Fecha en el formato adecuado
         medio_pago: medioPago.value
