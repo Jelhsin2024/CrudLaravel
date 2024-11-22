@@ -153,7 +153,7 @@ const login = async (req, res) => {
             }
 
             // Si las credenciales son correctas, generamos el token
-            const token = jwt.sign({ userId: usuario.id }, process.env.SECRET_KEY, { expiresIn: "24H" });
+            const token = jwt.sign({ userId: usuario.id }, process.env.SECRET_KEY, { expiresIn: "1h" });
 
             console.log("Usuario con ID:" + usuario.id + " se ha logueado correctamente ;)");
             // Agregamos cookie

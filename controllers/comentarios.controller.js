@@ -25,7 +25,7 @@ const allComentario = (req, res) => {
 // Meotodo para  mostrar un comentario
 const showComentario = (req, res) => {
     const {id_comentario} = req.params;
-    const sql = "SELECT * FROM platillos WHERE id = ?";
+    const sql = "SELECT * FROM comentarios WHERE id = ?";
     db.query(sql,[id_comentario], (error, rows) => {
         console.log(rows);
         if(error){
@@ -41,9 +41,9 @@ const showComentario = (req, res) => {
 
 //// METODO POST  ////
 const storeComentario = (req, res) => {
-    const {nombre, puntuacion, comentario} = req.body;
-    const sql = "INSERT INTO comentarios (nombre, puntuacion, comentario) VALUES (?,?,?)";
-    db.query(sql,[nombre, puntuacion, comentario], (error, result) => {
+    const {nombreID, puntuacion, comentario, respuesta, nombre} = req.body;
+    const sql = "INSERT INTO comentarios (nombreID, puntuacion, comentario, respuesta, nombre) VALUES (?,?,?,?,?)";
+    db.query(sql,[nombreID, puntuacion, comentario, respuesta, nombre], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor no se puede cargar el comentario :("});
@@ -57,10 +57,10 @@ const storeComentario = (req, res) => {
 //// METODO PUT  ////
 const updateComentario = (req, res) => {
     const {id_comentario} = req.params;
-    const {nombre, puntuacion, comentario} = req.body;
+    const {nombreID, puntuacion, comentario, respuesta, nombre} = req.body;
     
-    const sql ="UPDATE comentarios SET nombre = ?, puntuacion = ?, comentario = ? WHERE id = ?";
-    db.query(sql,[nombre, puntuacion, comentario, id_comentario], (error, result) => {
+    const sql ="UPDATE comentarios SET nombreID = ?, puntuacion = ?, comentario = ?, respuesta = ?, nombre = ? WHERE id = ?";
+    db.query(sql,[nombreID, puntuacion, comentario, respuesta, nombre, id_comentario], (error, result) => {
         console.log(result);
         if(error){
             return res.status(500).json({error : "ERROR: Intente mas tarde por favor"});
